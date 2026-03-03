@@ -7,6 +7,8 @@ import { InputPage } from "./InputPage";
 import { ResultsPage } from "./ResultsPage";
 import type { VADInputValue } from "../evalContext";
 import { detectSelectedVADsFromLayout } from "../vadSelection";
+import { VAD_INPUT_CONFIGS } from "../vadInputs";
+import { usePersistentState } from "../hooks/usePersistentState";
 
 type PresentTab = "home" | "vads" | "results";
 
@@ -72,7 +74,7 @@ export const PresentApp: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Record<string, number> | null>(null);
   // Raw inputs coming from the InputsRenderer (keyed by VAD name and field index)
-  const [inputValues, setInputValues] = useState<VADInputValue>({});
+  const [inputValues, setInputValues] = usePersistentState<VADInputValue>("vad-inputs", {});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -91,7 +93,10 @@ export const PresentApp: React.FC = () => {
   const vadLayout = config?.vadLayout ?? null;
   const resultsLayout = config?.resultsLayout ?? null;
 
-  const selectedVADs = useMemo(() => detectSelectedVADsFromLayout(vadLayout), [vadLayout]);
+  const selectedVADs = useMemo(() => {
+    const fromLayout = detectSelectedVADsFromLayout(vadLayout);
+    return fromLayout.length ? fromLayout : Object.keys(VAD_INPUT_CONFIGS);
+  }, [vadLayout]);
 
   // Simple helper to safely extract a number from InputsRenderer's structure
   const getFieldNumber = (
@@ -105,65 +110,63 @@ export const PresentApp: React.FC = () => {
     return isNaN(n) ? 0 : n;
   };
 
-  const handleCalculate = () => {
-    if (!inputValues || Object.keys(inputValues).length === 0) {
-      return;
-    }
+  const calculateResultsFromInputs = (values: VADInputValue): Record<string, number> | null => {
+    if (!values || Object.keys(values).length === 0) return null;
 
     const res: Record<string, number> = {};
 
-    Object.entries(inputValues).forEach(([vadName, fields]) => {
+    Object.entries(values).forEach(([vadName, fields]) => {
       const f = fields as { [fieldIndex: number]: { value: string | number; uom: string } };
       let total = 0;
 
       // Per‑VAD formulas based on the provided Excel spec
       switch (vadName) {
-        case "Avoided Eco-Modulation Malus via Grade A DfR Compliance": {
-          // Total Tonnage * (Baseline Rate - Target Rate)
-          const totalTonnage = getFieldNumber(f, 0); // user input
-          const baselineRate = 250; // $/ton
-          const targetRate = 130; // $/ton
-          total = totalTonnage * (baselineRate - targetRate);
+        case "Increased Value of Recycled Plastic": {
+          // Value = Total Plastic Weight * (Old Plastic Waste % - New Plastic Waste %) * Price per Ton
+          const totalPlastic = getFieldNumber(f, 0);
+          const oldWastePct = getFieldNumber(f, 1);
+          const newWastePct = getFieldNumber(f, 2);
+          const pricePerTon = getFieldNumber(f, 3);
+          const deltaPct = (oldWastePct - newWastePct) / 100;
+          total = totalPlastic * deltaPct * pricePerTon;
           break;
         }
 
-        case "Reduced inbound freight via film downgauging and optimized dimensional weight": {
-          // ((Baseline lbs - Target lbs) * Total Pallets) * Freight Rate per lb
-          const baselineLbs = getFieldNumber(f, 0); // user input
-          const targetLbs = 280; // lbs
-          const totalPallets = getFieldNumber(f, 1); // user input
-          const freightRate = 0.15; // $ per lb
-          total = (baselineLbs - targetLbs) * totalPallets * freightRate;
+        case "Lower Freight Costs": {
+          // Value = ((Old Pallet Weight - New Pallet Weight) * Total Pallets) * Freight Cost per lb
+          const oldWeight = getFieldNumber(f, 0);
+          const newWeight = getFieldNumber(f, 1);
+          const totalPallets = getFieldNumber(f, 2);
+          const freightCost = getFieldNumber(f, 3);
+          total = (oldWeight - newWeight) * totalPallets * freightCost;
           break;
         }
 
-        case "Fewer roll changeovers due to higher label count per reel on downgauged film": {
-          // (Baseline Stops - Target Stops) * Minutes per Stop * Downtime Cost per Minute
-          const baselineStops = getFieldNumber(f, 0); // user input
-          const targetStops = 3333; // Number
-          const minutesPerStop = getFieldNumber(f, 1); // user input
-          const downtimeCostPerMinute = getFieldNumber(f, 2); // user input
-          total = (baselineStops - targetStops) * minutesPerStop * downtimeCostPerMinute;
+        case "Increased Factory Uptime": {
+          // Value = (Old Machine Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min
+          const oldStops = getFieldNumber(f, 0);
+          const newStops = getFieldNumber(f, 1);
+          const minutesPerStop = getFieldNumber(f, 2);
+          const downtimeCostPerMinute = getFieldNumber(f, 3);
+          total = (oldStops - newStops) * minutesPerStop * downtimeCostPerMinute;
           break;
         }
 
-        case "Increased value of uncontaminated food-grade rPET flakes (no ink bleed)": {
-          // Total PET Tonnage * (Baseline Flake Contamination Loss % - Target Flake Contamination Loss %) * Price per Ton of Food Grade rPET
-          const totalPET = getFieldNumber(f, 0); // user input
-          const baselineLoss = 20; // %
-          const targetLoss = 0.5; // %
-          const pricePerTon = 427.69; // $
-          const deltaLoss = (baselineLoss - targetLoss) / 100;
-          total = totalPET * deltaLoss * pricePerTon;
+        case "Lower Environmental Taxes": {
+          // Value = Total Plastic Weight * (Old Tax Rate - New Tax Rate)
+          const plasticWeight = getFieldNumber(f, 0);
+          const oldRate = getFieldNumber(f, 1);
+          const newRate = getFieldNumber(f, 2);
+          total = plasticWeight * (oldRate - newRate);
           break;
         }
 
-        case "recycLABEL Implementation Cost": {
+        case "recycLABEL Implementation Cost (Subtractive)": {
           // (Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Volume / 1000) + R&D Testing Fees
-          const baselinePrice = getFieldNumber(f, 0); // user input
-          const targetPrice = 6.5; // $
-          const annualVolume = getFieldNumber(f, 1); // user input
-          const rdFees = 10000; // $
+          const baselinePrice = getFieldNumber(f, 0);
+          const targetPrice = getFieldNumber(f, 1);
+          const annualVolume = getFieldNumber(f, 2);
+          const rdFees = getFieldNumber(f, 3);
           total = (targetPrice - baselinePrice) * (annualVolume / 1000) + rdFees;
           break;
         }
@@ -189,15 +192,32 @@ export const PresentApp: React.FC = () => {
     const netBenefit = totalAnnualValue - totalInvestments;
     const roi = totalInvestments === 0 ? 0 : netBenefit / totalInvestments;
 
-    setResults({
+    return {
       ...res,
       "Total Annual Value": totalAnnualValue,
       "Total Investments": totalInvestments,
       "Net Benefit (Year 1)": netBenefit,
       ROI: roi,
-    });
+    };
+  };
+
+  const handleCalculate = () => {
+    if (!inputValues || Object.keys(inputValues).length === 0) {
+      return;
+    }
+
+    const computed = calculateResultsFromInputs(inputValues);
+    setResults(computed);
     setActive("results");
   };
+
+  // If results are already being shown, keep them live as inputs are edited.
+  useEffect(() => {
+    if (!results && active !== "results") return;
+    const computed = calculateResultsFromInputs(inputValues);
+    if (computed) setResults(computed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValues]);
 
   if (loading) {
     return (
@@ -226,7 +246,13 @@ export const PresentApp: React.FC = () => {
       <button
         key={id}
         className={`nav-tab ${activeTab ? "active" : ""}`}
-        onClick={() => setActive(id)}
+        onClick={() => {
+          if (id === "results") {
+            const computed = calculateResultsFromInputs(inputValues);
+            if (computed) setResults(computed);
+          }
+          setActive(id);
+        }}
       >
         {label}
       </button>
@@ -263,6 +289,7 @@ export const PresentApp: React.FC = () => {
           onCalculate={handleCalculate}
           // Capture live input changes from the InputsRenderer so we can calculate later
           onInputsChange={setInputValues}
+          initialInputs={inputValues}
         />
       )}
       {active === "results" && (

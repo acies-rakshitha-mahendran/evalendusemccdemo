@@ -1,42 +1,62 @@
 // src/present/InputsRenderer.tsx
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { VAD_INPUT_CONFIGS } from "../vadInputs";
 import type { VADInputValue } from "../evalContext";
 
 interface InputsRendererProps {
   vadNames: string[]; // List of VAD names to render
   onInputsChange?: (inputs: VADInputValue) => void;
+  initialInputs?: VADInputValue;
 }
 
-export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInputsChange }) => {
-  const [inputs, setInputs] = useState<VADInputValue>(
-    vadNames.reduce((acc, vadName) => {
-      acc[vadName] = {};
-      const config = VAD_INPUT_CONFIGS[vadName];
-      if (config) {
-        config.fields.forEach((field, idx) => {
-          acc[vadName][idx] = {
-            value: "",
-            uom: field.defaultUOM || "$",
-          };
-        });
-      }
-      return acc;
-    }, {} as VADInputValue)
-  );
+const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValue => {
+  const next: VADInputValue = {};
+  vadNames.forEach((vadName) => {
+    const config = VAD_INPUT_CONFIGS[vadName];
+    const existing = base?.[vadName] ?? {};
+    next[vadName] = {};
+    if (config) {
+      config.fields.forEach((field, idx) => {
+        const prevEntry = existing[idx];
+        next[vadName][idx] = {
+          value: prevEntry?.value ?? "",
+          uom: prevEntry?.uom ?? field.defaultUOM ?? "$",
+        };
+      });
+    }
+  });
+  return next;
+};
+
+export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInputsChange, initialInputs }) => {
+  const initialSeed = useMemo(() => buildSeedInputs(vadNames, initialInputs), [vadNames, initialInputs]);
+  const [inputs, setInputs] = useState<VADInputValue>(initialSeed);
+
+  // Keep inputs stable across tab switches and VAD selection changes.
+  useEffect(() => {
+    setInputs((prev) => buildSeedInputs(vadNames, initialInputs ?? prev));
+  }, [vadNames, initialInputs]);
 
   const handleValueChange = (vadName: string, fieldIndex: number, value: string | number) => {
-    const updated = { ...inputs };
-    updated[vadName][fieldIndex].value = value;
-    setInputs(updated);
-    onInputsChange?.(updated);
+    setInputs((prev) => {
+      const updated: VADInputValue = { ...prev };
+      updated[vadName] = { ...(updated[vadName] ?? {}) };
+      updated[vadName][fieldIndex] = { ...(updated[vadName][fieldIndex] ?? { value: "", uom: "$" }) };
+      updated[vadName][fieldIndex].value = value;
+      onInputsChange?.(updated);
+      return updated;
+    });
   };
 
   const handleUOMChange = (vadName: string, fieldIndex: number, uom: string) => {
-    const updated = { ...inputs };
-    updated[vadName][fieldIndex].uom = uom;
-    setInputs(updated);
-    onInputsChange?.(updated);
+    setInputs((prev) => {
+      const updated: VADInputValue = { ...prev };
+      updated[vadName] = { ...(updated[vadName] ?? {}) };
+      updated[vadName][fieldIndex] = { ...(updated[vadName][fieldIndex] ?? { value: "", uom: "$" }) };
+      updated[vadName][fieldIndex].uom = uom;
+      onInputsChange?.(updated);
+      return updated;
+    });
   };
 
   const inputStyle = {

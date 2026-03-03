@@ -10,6 +10,9 @@ import {
   ImageBlock,
   GridBlock,
   FlexBlock,
+  HeroSection,
+  StatsCard,
+  IconBadge,
   VADBlock,
   ResultCard,
   SliderCard,
@@ -33,24 +36,24 @@ type CraftEditorShellProps = {
 
 const VADS_LIST: { full: string; short: string }[] = [
   {
-    full: "Avoided Eco-Modulation Malus via Grade A DfR Compliance",
-    short: "Avoided Eco-Modulation Malus",
+    full: "Increased Value of Recycled Plastic",
+    short: "Recycled Plastic Value",
   },
   {
-    full: "Reduced inbound freight via film downgauging and optimized dimensional weight",
-    short: "Reduced inbound freight",
+    full: "Lower Freight Costs",
+    short: "Lower Freight Costs",
   },
   {
-    full: "Fewer roll changeovers due to higher label count per reel on downgauged film",
-    short: "Fewer roll changeovers",
+    full: "Increased Factory Uptime",
+    short: "Factory Uptime",
   },
   {
-    full: "Increased value of uncontaminated food-grade rPET flakes (no ink bleed)",
-    short: "Increased value of uncontaminated food-grade",
+    full: "Lower Environmental Taxes",
+    short: "Lower Env. Taxes",
   },
   {
-    full: "Direct Label Price Premium and Transition Costs",
-    short: "Direct Label Price",
+    full: "recycLABEL Implementation Cost (Subtractive)",
+    short: "Implementation Cost",
   },
 ];
 
@@ -92,6 +95,7 @@ const RenderPalette: React.FC<{ mode: "home" | "vads" | "results" }> = ({ mode }
       <>
         <div style={{ fontSize: 12, fontWeight: 600, marginBottom: "0.5rem", opacity: 0.8 }}>Components</div>
         <DraggableItem component={LogoBlock} label="Logo" icon="●" />
+        <DraggableItem component={IconBadge} label="Icon badge" icon="★" />
         <DraggableItem component={TitleBlock} label="Title" icon="H1" />
         <DraggableItem component={SubtitleBlock} label="Subtitle" icon="⋯" />
         <DraggableItem component={ButtonBlock} label="Button" icon="↳" />
@@ -99,6 +103,9 @@ const RenderPalette: React.FC<{ mode: "home" | "vads" | "results" }> = ({ mode }
         <DraggableItem component={GridBlock} label="Grid" icon="⊞" />
         <DraggableItem component={FlexBlock} label="Flex" icon="↔" />
         <DraggableItem component={Container} label="Container" icon="◻" />
+        <div style={{ fontSize: 12, fontWeight: 600, margin: "0.75rem 0 0.35rem", opacity: 0.8 }}>Sections</div>
+        <DraggableItem component={HeroSection} label="Hero section" icon="⬛" />
+        <DraggableItem component={StatsCard} label="Stats card" icon="📊" />
       </>
     );
   } else if (mode === "vads") {
@@ -334,6 +341,29 @@ const PropertyEditorWrapper: React.FC<{ nodeId: string }> = ({ nodeId }) => {
           defaultValue="100"
           onChange={(e) => handlePropChange("minHeight", parseInt(e.target.value) || 100)}
         />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 6 }}>
+        <div style={{ marginBottom: "0.75rem" }}>
+          <label style={{ display: "block", fontSize: 11, marginBottom: "0.25rem", opacity: 0.7 }}>Width (px)</label>
+          <input
+            type="number"
+            placeholder="auto"
+            onChange={(e) =>
+              handlePropChange("width", e.target.value === "" ? undefined : parseInt(e.target.value) || undefined)
+            }
+          />
+        </div>
+        <div style={{ marginBottom: "0.75rem" }}>
+          <label style={{ display: "block", fontSize: 11, marginBottom: "0.25rem", opacity: 0.7 }}>Height (px)</label>
+          <input
+            type="number"
+            placeholder="auto"
+            onChange={(e) =>
+              handlePropChange("height", e.target.value === "" ? undefined : parseInt(e.target.value) || undefined)
+            }
+          />
+        </div>
       </div>
     </div>
   );

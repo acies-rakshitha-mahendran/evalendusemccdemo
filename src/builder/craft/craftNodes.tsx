@@ -9,14 +9,34 @@ type BaseProps = {
 };
 
 export const Container: React.FC<
-  BaseProps & { padding?: number; align?: "left" | "center" | "right"; backgroundColor?: string; borderRadius?: number; minHeight?: number }
-> = ({ children, padding = 24, align = "left", backgroundColor, borderRadius = 20, minHeight = 400 }) => {
+  BaseProps & {
+    padding?: number;
+    align?: "left" | "center" | "right";
+    backgroundColor?: string;
+    borderRadius?: number;
+    minHeight?: number;
+    width?: number;
+    height?: number;
+  }
+> = ({
+  children,
+  padding = 24,
+  align = "left",
+  backgroundColor,
+  borderRadius = 20,
+  minHeight = 400,
+  width,
+  height,
+}) => {
   const { connectors } = useNode();
   
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         padding,
@@ -26,6 +46,8 @@ export const Container: React.FC<
         boxShadow: "0 16px 45px rgba(0,0,0,0.1)",
         textAlign: (align as "left" | "center" | "right" | "justify" | "initial"),
         minHeight,
+        width: width ? `${width}px` : undefined,
+        height: height ? `${height}px` : undefined,
         cursor: "pointer",
       }}
     >
@@ -39,12 +61,22 @@ export const Container: React.FC<
   props: { padding: 24, align: "left", borderRadius: 20, minHeight: 400 },
 };
 
-export const TitleBlock: React.FC<{ text?: string; align?: string; fontSize?: number; color?: string; backgroundColor?: string }> = ({
+export const TitleBlock: React.FC<{
+  text?: string;
+  align?: string;
+  fontSize?: number;
+  color?: string;
+  backgroundColor?: string;
+  width?: number;
+  height?: number;
+}> = ({
   text = "Enter title",
   align = "left",
   fontSize = 32,
   color = "#000000",
   backgroundColor,
+  width,
+  height,
 }) => {
   const { connectors } = useNode();
   const textAlign: "left" | "center" | "right" =
@@ -53,7 +85,10 @@ export const TitleBlock: React.FC<{ text?: string; align?: string; fontSize?: nu
   return (
     <h1
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         margin: 0,
@@ -64,6 +99,8 @@ export const TitleBlock: React.FC<{ text?: string; align?: string; fontSize?: nu
         color,
         backgroundColor,
         textAlign,
+        width: width ? `${width}px` : undefined,
+        height: height ? `${height}px` : undefined,
         cursor: "pointer",
       }}
     >
@@ -89,7 +126,10 @@ export const SubtitleBlock: React.FC<{ text?: string; fontSize?: number; color?:
   return (
     <p
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         margin: 0,
@@ -123,7 +163,10 @@ export const ButtonBlock: React.FC<{ label?: string; fontSize?: number; color?: 
   return (
     <button 
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         padding,
@@ -135,6 +178,7 @@ export const ButtonBlock: React.FC<{ label?: string; fontSize?: number; color?: 
         fontWeight: 600,
         cursor: "pointer",
         transition: "all 0.2s ease",
+        width: "auto",
       }}
       onClick={(e) => e.stopPropagation()}
       onMouseDown={(e) => e.stopPropagation()}
@@ -149,18 +193,23 @@ export const ButtonBlock: React.FC<{ label?: string; fontSize?: number; color?: 
   props: { label: "Enter button label", fontSize: 14, color: "#ffffff", backgroundColor: "#55883B", padding: 10 },
 };
 
-export const LogoBlock: React.FC<{ text?: string; fontSize?: number; color?: string; backgroundColor?: string }> = ({ 
+export const LogoBlock: React.FC<{ text?: string; fontSize?: number; color?: string; backgroundColor?: string; width?: number; height?: number }> = ({ 
   text = "Enter logo text",
   fontSize = 13,
   color = "#000000",
   backgroundColor,
+  width,
+  height,
 }) => {
   const { connectors } = useNode();
   
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         display: "inline-flex",
@@ -174,6 +223,8 @@ export const LogoBlock: React.FC<{ text?: string; fontSize?: number; color?: str
         color,
         letterSpacing: "0.12em",
         textTransform: "uppercase",
+        width: width ? `${width}px` : undefined,
+        height: height ? `${height}px` : undefined,
         cursor: "pointer",
       }}
     >
@@ -197,21 +248,69 @@ export const LogoBlock: React.FC<{ text?: string; fontSize?: number; color?: str
   props: { text: "Enter logo text", fontSize: 13, color: "#000000" },
 };
 
-export const ImageBlock: React.FC<{ src?: string; alt?: string }> = ({
+export const IconBadge: React.FC<{ label?: string }> = ({ label = "Icon label" }) => {
+  const { connectors } = useNode();
+
+  return (
+    <div
+      ref={(ref) => {
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
+      }}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "8px 12px",
+        borderRadius: 999,
+        background: "rgba(15,23,42,0.04)",
+        border: "1px solid rgba(148,163,184,0.6)",
+        cursor: "pointer",
+      }}
+    >
+      <div
+        style={{
+          width: 22,
+          height: 22,
+          borderRadius: "999px",
+          background:
+            "radial-gradient(circle at 30% 0, #4ade80, #15803d 70%)",
+          boxShadow: "0 6px 14px rgba(22,163,74,0.55)",
+        }}
+      />
+      <span style={{ fontSize: 12, fontWeight: 600 }}>{label}</span>
+    </div>
+  );
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(IconBadge as any).craft = {
+  displayName: "IconBadge",
+  props: { label: "Icon label" },
+};
+
+export const ImageBlock: React.FC<{ src?: string; alt?: string; width?: number; height?: number }> = ({
   src = "https://via.placeholder.com/400x200/1e3a8a/e5e7eb?text=Image",
   alt = "Placeholder",
+  width,
+  height,
 }) => {
   const { connectors } = useNode();
   
   return (
     <img
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       src={src}
       alt={alt}
       style={{
-        maxWidth: "100%",
+        maxWidth: width ? `${width}px` : "100%",
+        height: height ? `${height}px` : "auto",
         borderRadius: 12,
         border: "1px solid rgba(148,163,184,0.5)",
         cursor: "pointer",
@@ -228,6 +327,44 @@ export const ImageBlock: React.FC<{ src?: string; alt?: string }> = ({
   },
 };
 
+export const StatsCard: React.FC<{
+  title?: string;
+  value?: string;
+  description?: string;
+}> = ({ title = "Metric", value = "123", description = "Short description" }) => {
+  const { connectors } = useNode();
+
+  return (
+    <div
+      ref={(ref) => {
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
+      }}
+      className="glass-card"
+      style={{
+        padding: "14px 16px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+        cursor: "pointer",
+      }}
+    >
+      <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", opacity: 0.7 }}>
+        {title}
+      </div>
+      <div style={{ fontSize: 26, fontWeight: 700 }}>{value}</div>
+      <div style={{ fontSize: 12, opacity: 0.8 }}>{description}</div>
+    </div>
+  );
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(StatsCard as any).craft = {
+  displayName: "StatsCard",
+  props: { title: "Metric", value: "123", description: "Short description" },
+};
+
 export const GridBlock: React.FC<BaseProps & { columns?: number }> = ({
   children,
   columns = 2,
@@ -237,7 +374,10 @@ export const GridBlock: React.FC<BaseProps & { columns?: number }> = ({
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         display: "grid",
@@ -261,14 +401,17 @@ export const GridBlock: React.FC<BaseProps & { columns?: number }> = ({
 };
 
 export const FlexBlock: React.FC<
-  BaseProps & { direction?: "row" | "column"; gap?: number }
-> = ({ children, direction = "row", gap = 12 }) => {
+  BaseProps & { direction?: "row" | "column"; gap?: number; width?: number; height?: number }
+> = ({ children, direction = "row", gap = 12, width, height }) => {
   const { connectors } = useNode();
   
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       style={{
         display: "flex",
@@ -278,6 +421,8 @@ export const FlexBlock: React.FC<
         borderRadius: 12,
         border: "1px dashed rgba(148,163,184,0.5)",
         minHeight: 100,
+        width: width ? `${width}px` : undefined,
+        height: height ? `${height}px` : undefined,
         cursor: "pointer",
       }}
     >
@@ -291,6 +436,123 @@ export const FlexBlock: React.FC<
   props: { direction: "row", gap: 12 },
 };
 
+export const HeroSection: React.FC<{
+  headline?: string;
+  subheadline?: string;
+  buttonLabel?: string;
+  imageUrl?: string;
+}> = ({
+  headline = "Modern Sustainable Packaging",
+  subheadline = "Design a story-driven hero section that highlights your value proposition.",
+  buttonLabel = "Learn More",
+  imageUrl = "https://www.mcclabel.com/_next/image?url=https%3A%2F%2Fcms.mcclabel.com%2Fwp-content%2Fuploads%2F2023%2F08%2FProduct-4-recycLABEL-Roll-Fed.jpg&w=1920&q=75",
+}) => {
+  const { connectors } = useNode();
+
+  return (
+    <div
+      ref={(ref) => {
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
+      }}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "minmax(0, 1.2fr) minmax(0, 1fr)",
+        gap: 24,
+        alignItems: "center",
+        padding: 24,
+        borderRadius: 24,
+        border: "1px solid rgba(148,163,184,0.4)",
+        background:
+          "radial-gradient(circle at 0 0, rgba(34,197,94,0.12), transparent 60%), radial-gradient(circle at 100% 0, rgba(56,189,248,0.16), transparent 60%), rgba(255,255,255,0.96)",
+        cursor: "pointer",
+      }}
+    >
+      <div>
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.16em",
+            marginBottom: 8,
+            color: "#16a34a",
+          }}
+        >
+          MCC recycLABEL
+        </div>
+        <div
+          style={{
+            fontSize: 30,
+            lineHeight: 1.2,
+            fontWeight: 700,
+            marginBottom: 10,
+            color: "#0f172a",
+          }}
+        >
+          {headline}
+        </div>
+        <div
+          style={{
+            fontSize: 14,
+            lineHeight: 1.6,
+            color: "#334155",
+            marginBottom: 16,
+          }}
+        >
+          {subheadline}
+        </div>
+        <button
+          style={{
+            padding: "10px 16px",
+            borderRadius: 999,
+            border: "none",
+            background: "#55883B",
+            color: "#ffffff",
+            fontSize: 13,
+            fontWeight: 600,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            cursor: "pointer",
+          }}
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          {buttonLabel}
+        </button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={imageUrl}
+          alt="Hero visual"
+          style={{
+            maxWidth: "100%",
+            borderRadius: 20,
+            border: "1px solid rgba(148,163,184,0.45)",
+            boxShadow: "0 18px 50px rgba(15,23,42,0.4)",
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(HeroSection as any).craft = {
+  displayName: "HeroSection",
+  props: {
+    headline: "Unlock the future of sustainable packaging.",
+    subheadline: "Start from a high-impact hero section and customize it live with your client.",
+    buttonLabel: "Start your journey",
+  },
+};
+
 export const VADBlock: React.FC<{ title?: string; vadId?: string; backgroundColor?: string; color?: string }> = ({
   title = "Enter VAD name",
   vadId = "",
@@ -302,7 +564,10 @@ export const VADBlock: React.FC<{ title?: string; vadId?: string; backgroundColo
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       className="glass-card"
       style={{
@@ -318,9 +583,11 @@ export const VADBlock: React.FC<{ title?: string; vadId?: string; backgroundColo
       }}
     >
       <div style={{ fontSize: 12, fontWeight: 600, color: color || "#55883B", wordBreak: "break-word" }}>{title}</div>
-      <div style={{ fontSize: 10, color: color || "#55883B", opacity: 0.7 }}>
-        {vadId ? `VAD ID: ${vadId}` : "Drag into input screen to collect user inputs."}
-      </div>
+      {vadId ? (
+        <div style={{ fontSize: 10, color: color || "#55883B", opacity: 0.7 }}>
+          {`VAD ID: ${vadId}`}
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -354,13 +621,17 @@ export const ResultCard: React.FC<{ label?: string; value?: string; resultKey?: 
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       className="glass-card"
       style={{
         display: "flex",
         flexDirection: "column",
         gap: 6,
+        minHeight: 80,
         cursor: "pointer",
       }}
     >
@@ -401,7 +672,10 @@ export const SliderCard: React.FC<{
   return (
     <div
       ref={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
       className="glass-card"
       style={{
@@ -472,7 +746,10 @@ export const VADResultsList: React.FC<{
       columns={columns}
       gap={gap}
       connectRef={(ref) => {
-        if (ref) connectors.connect(ref);
+        if (ref) {
+          const dragged = connectors.drag ? connectors.drag(ref) : ref;
+          connectors.connect(dragged);
+        }
       }}
     />
   );

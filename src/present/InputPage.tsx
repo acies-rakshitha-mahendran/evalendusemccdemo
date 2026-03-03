@@ -6,12 +6,14 @@ type Props = {
   vadNames: string[]; 
   onCalculate: () => void;
   onInputsChange?: (inputs: VADInputValue) => void;
+  initialInputs?: VADInputValue;
 };
 
 export const InputPage: React.FC<Props> = ({
   vadNames = [],
   onCalculate,
   onInputsChange,
+  initialInputs,
 }) => {
   return (
     <div
@@ -38,7 +40,7 @@ export const InputPage: React.FC<Props> = ({
         </p>
 
         {vadNames && vadNames.length > 0 ? (
-          <InputsRenderer vadNames={vadNames} onInputsChange={onInputsChange} />
+          <InputsRenderer vadNames={vadNames} onInputsChange={onInputsChange} initialInputs={initialInputs} />
         ) : (
           <div style={{ padding: "2rem", textAlign: "center", opacity: 0.8 }}>
             No VADs selected. Please go back and select VADs from the Input screen.

@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { saveBuildConfig } from "../api";
+import { loadBuildConfig, saveBuildConfig } from "../api";
 import type { ProjectBuildConfig, CraftLayout, ThemeConfig } from "../types";
 import { defaultTheme, lightTheme, darkTheme } from "../theme";
 import { HomeBuilderPage } from "./HomeBuilderPage";
 import { VadBuilderPage } from "./VadBuilderPage";
 import { ResultsBuilderPage } from "./ResultsBuilderPage";
 import { detectSelectedVADsFromLayout } from "../vadSelection";
+import { useNavigate } from "react-router-dom";
 
 const DEMO_PROJECT_ID = "demo-project";
 
@@ -62,6 +63,7 @@ const applyTheme = (theme: ThemeConfig) => {
 };
 
 export const BuildApp: React.FC = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState<"home" | "vads" | "results">("home");
   const [homeData, setHomeData] = useState<CraftLayout>(null);
   const [vadData, setVadData] = useState<CraftLayout>(null);
@@ -77,6 +79,17 @@ export const BuildApp: React.FC = () => {
   const [publishing, setPublishing] = useState(false);
   const [zoom, setZoom] = useState(100);
   const [viewMode, setViewMode] = useState<"desktop" | "tablet" | "mobile">("desktop");
+
+  // Load persisted build config (and default-seeded config from bootstrapper) on first mount.
+  useEffect(() => {
+    loadBuildConfig(DEMO_PROJECT_ID).then((cfg) => {
+      if (!cfg) return;
+      setTheme(cfg.theme ?? defaultTheme);
+      setHomeData(cfg.homeLayout ?? null);
+      setVadData(cfg.vadLayout ?? null);
+      setResultsData(cfg.resultsLayout ?? null);
+    });
+  }, []);
 
   useEffect(() => {
     applyTheme(theme);
@@ -101,6 +114,15 @@ export const BuildApp: React.FC = () => {
     };
     await saveBuildConfig(cfg);
   };
+
+  // Auto-persist edits so switching Build/Preview or reload keeps changes.
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      void persistConfig();
+    }, 500);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme, homeData, vadData, resultsData]);
 
   const pushHistory = (
     page: "home" | "vads" | "results",
@@ -197,7 +219,7 @@ export const BuildApp: React.FC = () => {
     setPublishing(true);
     await persistConfig();
     setPublishing(false);
-    window.open(`/present?projectId=${DEMO_PROJECT_ID}`, "_blank");
+    navigate(`/present?projectId=${DEMO_PROJECT_ID}`);
   };
 
   const handleThemeChange = (mode: "light" | "dark") => {

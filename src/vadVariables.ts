@@ -8,121 +8,129 @@ export interface VADVariable {
 }
 
 export const VAD_VARIABLES: Record<string, VADVariable[]> = {
-  // Avoided Eco-Modulation Malus via Grade A DfR Compliance
-  "Avoided Eco-Modulation Malus via Grade A DfR Compliance": [
+  // Increased Value of Recycled Plastic
+  "Increased Value of Recycled Plastic": [
     {
-      label: "Total Annual Tonnage",
+      label: "Total Plastic Weight",
       defaultValue: 5000,
       defaultUOM: "tonne",
       isUserInput: true,
       inputFieldIndex: 0,
     },
     {
-      label: "Grade C Malus Rate (Baseline)",
-      defaultValue: 250,
-      defaultUOM: "$/tonne",
-      isUserInput: false,
+      label: "Old Plastic Waste Percentage",
+      defaultValue: 20,
+      defaultUOM: "%",
+      isUserInput: true,
+      inputFieldIndex: 1,
     },
     {
-      label: "Grade A Bonus Rate (Target)",
-      defaultValue: 130,
-      defaultUOM: "$/tonne",
-      isUserInput: false,
+      label: "New Plastic Waste Percentage",
+      defaultValue: 0.5,
+      defaultUOM: "%",
+      isUserInput: true,
+      inputFieldIndex: 2,
+    },
+    {
+      label: "Price of Recycled Plastic per Ton",
+      defaultValue: 427.69,
+      defaultUOM: "$",
+      isUserInput: true,
+      inputFieldIndex: 3,
     },
   ],
 
-  // Reduced inbound freight via film downgauging and optimized dimensional weight
-  "Reduced inbound freight via film downgauging and optimized dimensional weight": [
+  // Lower Freight Costs
+  "Lower Freight Costs": [
     {
-      label: "Baseline lbs per pallet",
+      label: "Old Pallet Weight",
       defaultValue: 400,
       defaultUOM: "lbs",
       isUserInput: true,
       inputFieldIndex: 0,
     },
     {
-      label: "Target lbs per pallet",
+      label: "New Pallet Weight",
       defaultValue: 280,
       defaultUOM: "lbs",
-      isUserInput: false,
+      isUserInput: true,
+      inputFieldIndex: 1,
     },
     {
       label: "Total Pallets",
       defaultValue: 2000,
       defaultUOM: "Number",
       isUserInput: true,
-      inputFieldIndex: 1,
+      inputFieldIndex: 2,
     },
     {
-      label: "Freight Rate per lb",
+      label: "Freight Cost per lb",
       defaultValue: 0.15,
       defaultUOM: "$",
-      isUserInput: false,
+      isUserInput: true,
+      inputFieldIndex: 3,
     },
   ],
 
-  // Fewer roll changeovers due to higher label count per reel on downgauged film
-  "Fewer roll changeovers due to higher label count per reel on downgauged film": [
+  // Increased Factory Uptime
+  "Increased Factory Uptime": [
     {
-      label: "Baseline Stops",
+      label: "Old Machine Stops",
       defaultValue: 5000,
       defaultUOM: "Number",
       isUserInput: true,
       inputFieldIndex: 0,
     },
     {
-      label: "Target Stops (recycLABEL)",
+      label: "New Machine Stops",
       defaultValue: 3333,
       defaultUOM: "Number",
-      isUserInput: false,
+      isUserInput: true,
+      inputFieldIndex: 1,
     },
     {
-      label: "Minutes per Stop",
+      label: "Avg. Minutes per Stop",
       defaultValue: 5,
       defaultUOM: "Mins",
       isUserInput: true,
-      inputFieldIndex: 1,
+      inputFieldIndex: 2,
     },
     {
       label: "Downtime Cost per Minute",
       defaultValue: 21,
       defaultUOM: "$",
       isUserInput: true,
-      inputFieldIndex: 2,
+      inputFieldIndex: 3,
     },
   ],
 
-  // Increased value of uncontaminated food-grade rPET flakes (no ink bleed)
-  "Increased value of uncontaminated food-grade rPET flakes (no ink bleed)": [
+  // Lower Environmental Taxes
+  "Lower Environmental Taxes": [
     {
-      label: "Total PET Tonnage",
+      label: "Plastic Weight Total",
       defaultValue: 5000,
       defaultUOM: "tonne",
       isUserInput: true,
       inputFieldIndex: 0,
     },
     {
-      label: "Baseline Flake Contamination Loss Percentage",
-      defaultValue: 20,
-      defaultUOM: "%",
-      isUserInput: false,
+      label: "Old Tax Rate",
+      defaultValue: 250,
+      defaultUOM: "$/ton",
+      isUserInput: true,
+      inputFieldIndex: 1,
     },
     {
-      label: "Target Flake Contamination Loss Percentage",
-      defaultValue: 0.5,
-      defaultUOM: "%",
-      isUserInput: false,
-    },
-    {
-      label: "Price per Ton of Food Grade rPET",
-      defaultValue: 427.69,
-      defaultUOM: "$",
-      isUserInput: false,
+      label: "New Tax Rate",
+      defaultValue: 130,
+      defaultUOM: "$/ton",
+      isUserInput: true,
+      inputFieldIndex: 2,
     },
   ],
 
-  // recycLABEL Implementation Cost
-  "recycLABEL Implementation Cost": [
+  // recycLABEL Implementation Cost (Subtractive)
+  "recycLABEL Implementation Cost (Subtractive)": [
     {
       label: "Baseline Price (per 1000 labels)",
       defaultValue: 4,
@@ -134,20 +142,22 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       label: "Target Price (per 1000 labels)",
       defaultValue: 6.5,
       defaultUOM: "$",
-      isUserInput: false,
+      isUserInput: true,
+      inputFieldIndex: 1,
     },
     {
       label: "Annual Volume",
       defaultValue: 100000000,
       defaultUOM: "Number",
       isUserInput: true,
-      inputFieldIndex: 1,
+      inputFieldIndex: 2,
     },
     {
       label: "R&D Testing Fees",
       defaultValue: 10000,
       defaultUOM: "$",
-      isUserInput: false,
+      isUserInput: true,
+      inputFieldIndex: 3,
     },
   ],
 };

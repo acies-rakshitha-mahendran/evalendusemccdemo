@@ -10,64 +10,54 @@ export interface VADMeta {
 }
 
 export const VAD_METADATA: Record<string, VADMeta> = {
-  "recycLABEL Implementation Cost": {
-    category: "Implementation Cost",
-    dimension: "Implementation Cost",
+  "Increased Value of Recycled Plastic": {
+    category: "Circular Economy Yield",
+    dimension: "Circular Economy Yield",
     variables: [
-      "Baseline Price (per 1000 labels)",
-      "Target Price (per 1000 labels)",
-      "Annual Volume",
-      "R&D Testing Fees",
+      "Total Plastic Weight",
+      "Old Plastic Waste Percentage",
+      "New Plastic Waste Percentage",
+      "Price of Recycled Plastic per Ton",
     ],
     expression:
-      "-1 * (Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Volume / 1000) + R&D Testing Fees",
+      "Value = Total Plastic Weight * (Old Plastic Waste % - New Plastic Waste %) * Price of Recycled Plastic per Ton",
   },
-  "Avoided Eco-Modulation Malus via Grade A DfR Compliance": {
-    category: "Regulatory Compliance",
-    dimension: "Avoided Cost",
-    variables: [
-      "Total Annual Tonnage",
-      "Grade C Malus Rate (Baseline)",
-      "Grade A Bonus Rate (Target)",
-    ],
-    expression: "Total Tonnage * (Baseline Rate - Target Rate)",
-  },
-  "Reduced inbound freight via film downgauging and optimized dimensional weight": {
+  "Lower Freight Costs": {
     category: "Supply Chain Efficiency",
     dimension: "Reduced Freight Cost",
     variables: [
-      "Baseline lbs per pallet",
-      "Target lbs per pallet",
+      "Old Pallet Weight",
+      "New Pallet Weight",
       "Total Pallets",
-      "Freight Rate per lb",
+      "Freight Cost per lb",
     ],
-    expression: "((Baseline lbs - Target lbs) * Total Pallets) * Freight Rate per lb",
+    expression:
+      "Value = ((Old Pallet Weight - New Pallet Weight) * Total Pallets) * Freight Cost per lb",
   },
-  "Fewer roll changeovers due to higher label count per reel on downgauged film": {
+  "Increased Factory Uptime": {
     category: "Operational Efficiency",
     dimension: "Reduced Line Stops",
     variables: [
-      "Baseline Stops",
-      "Target Stops (recycLABEL)",
-      "Minutes per Stop",
+      "Old Machine Stops",
+      "New Machine Stops",
+      "Avg minutes per Stop",
       "Downtime Cost per Minute",
     ],
     expression:
-      "(Baseline Stops - Target Stops) * Minutes per Stop * Downtime Cost per Minute",
+      "Value = (Old Machine Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min",
   },
-  "Increased value of uncontaminated food-grade rPET flakes (no ink bleed)": {
-    category: "Circular Economy Yield",
-    dimension: "Reduced Flake Contamination",
+  "Lower Environmental Taxes": {
+    category: "Regulatory Compliance",
+    dimension: "Avoided Cost",
     variables: [
-      "Total PET Tonnage",
-      "Baseline Flake Contamination Loss Percentage",
-      "Target Flake Contamination Loss Percentage",
-      "Price per Tonne of Food Grade rPET",
+      "Plastic Weight Total",
+      "Old Tax Rate",
+      "New Tax Rate",
     ],
     expression:
-      "Total PET Tonnage * (Baseline Flake Contamination Loss Percentage - Target Flake Contamination Loss Percentage) * Price per Ton of Food Grade rPET",
+      "Value = Total Plastic Weight * (Old Tax Rate - New Tax Rate)",
   },
-  "Direct Label Price Premium and Transition Costs": {
+  "recycLABEL Implementation Cost (Subtractive)": {
     category: "Implementation Cost",
     dimension: "Implementation Cost",
     variables: [

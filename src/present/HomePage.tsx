@@ -17,10 +17,12 @@ export const HomePage: React.FC<Props> = ({ layout }) => {
   }
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <Editor enabled={false} resolver={craftResolver}>
-        <Frame data={layout} />
-      </Editor>
+    <div className="present-body" style={{ padding: 0, overflowY: "auto" }}>
+      <div className="canvas-frame present-canvas-frame" style={{ width: "100%", minHeight: "100%" }}>
+        <Editor enabled={false} resolver={craftResolver}>
+          <Frame data={layout} />
+        </Editor>
+      </div>
     </div>
   );
 };

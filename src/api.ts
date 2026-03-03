@@ -6,6 +6,7 @@ import type {
 } from "./types";
 
 const STORAGE_KEY = "eval-craft-builder-config";
+export const BUILD_CONFIG_STORAGE_KEY = STORAGE_KEY;
 
 export async function saveBuildConfig(
   config: ProjectBuildConfig

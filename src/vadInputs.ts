@@ -17,27 +17,55 @@ export interface VADInputConfig {
 }
 
 export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
-  // 1) Avoided Eco-Modulation Malus via Grade A DfR Compliance
-  "Avoided Eco-Modulation Malus via Grade A DfR Compliance": {
-    vadName: "Avoided Eco-Modulation Malus via Grade A DfR Compliance",
+  // 1) Increased Value of Recycled Plastic
+  "Increased Value of Recycled Plastic": {
+    vadName: "Increased Value of Recycled Plastic",
     fields: [
       {
-        label: "Total Annual Tonnage",
+        label: "Total Plastic Weight",
         type: "number",
         placeholder: "e.g. 5000",
         options: ["Tons", "Number"],
         defaultUOM: "Tons",
-        description: "Total weight of plastic packaging your company places on the market",
+        description:
+          "Total physical volume of PET plastic used annually across your bottle production",
+      },
+      {
+        label: "Old Plastic Waste Percentage",
+        type: "number",
+        placeholder: "e.g. 20",
+        options: ["%", "Number"],
+        defaultUOM: "%",
+        description:
+          "Percentage of plastic flakes currently ruined during recycling without label inks bleeding into wash water",
+      },
+      {
+        label: "New Plastic Waste Percentage",
+        type: "number",
+        placeholder: "e.g. 0.5",
+        options: ["%", "Number"],
+        defaultUOM: "%",
+        description:
+          "Reduced contamination percentage achieved by using MCC labels engineered to wash off completely",
+      },
+      {
+        label: "Price of Recycled Plastic per Ton",
+        type: "number",
+        placeholder: "e.g. 427.69",
+        options: ["$", "Number"],
+        defaultUOM: "$",
+        description:
+          "Current open-market commodity price recyclers earn for selling high-quality rPET",
       },
     ],
   },
 
-  // 2) Reduced inbound freight via film downgauging and optimized dimensional weight
-  "Reduced inbound freight via film downgauging and optimized dimensional weight": {
-    vadName: "Reduced inbound freight via film downgauging and optimized dimensional weight",
+  // 2) Lower Freight Costs
+  "Lower Freight Costs": {
+    vadName: "Lower Freight Costs",
     fields: [
       {
-        label: "Baseline lbs per pallet",
+        label: "Old Pallet Weight",
         type: "number",
         placeholder: "e.g. 400",
         options: ["lbs", "Number"],
@@ -45,35 +73,63 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         description: "Average weight of an incoming pallet using your current thicker labels",
       },
       {
+        label: "New Pallet Weight",
+        type: "number",
+        placeholder: "e.g. 280",
+        options: ["lbs", "Number"],
+        defaultUOM: "lbs",
+        description: "Projected lighter weight of an incoming pallet using downgauged MCC labels",
+      },
+      {
         label: "Total Pallets",
         type: "number",
         placeholder: "e.g. 2000",
         options: ["Number"],
         defaultUOM: "Number",
-        description: "Total no. of label pallets you receive annually to calculate exact reduction in freight footprint",
+        description:
+          "Total no. of label pallets your company receives annually to calculate exact reduction in freight footprint",
+      },
+      {
+        label: "Freight Cost per lb",
+        type: "number",
+        placeholder: "e.g. 0.15",
+        options: ["$", "Number"],
+        defaultUOM: "$",
+        description: "Average inbound shipping cost per pound for your packaging materials",
       },
     ],
   },
 
-  // 3) Fewer roll changeovers due to higher label count per reel on downgauged film
-  "Fewer roll changeovers due to higher label count per reel on downgauged film": {
-    vadName: "Fewer roll changeovers due to higher label count per reel on downgauged film",
+  // 3) Increased Factory Uptime
+  "Increased Factory Uptime": {
+    vadName: "Increased Factory Uptime",
     fields: [
       {
-        label: "Baseline Stops",
+        label: "Old Machine Stops",
         type: "number",
         placeholder: "e.g. 5000",
         options: ["Number"],
         defaultUOM: "Number",
-        description: "No. of times per year your bottling line currently has to pause simply to swap out an empty roll of labels",
+        description:
+          "No. of times per year the bottling line currently pauses to swap out an empty label roll",
       },
       {
-        label: "Minutes per Stop",
+        label: "New Machine Stops",
+        type: "number",
+        placeholder: "e.g. 3333",
+        options: ["Number"],
+        defaultUOM: "Number",
+        description:
+          "Reduced no. of line stops expected due to the higher label count on MCC's thinner film rolls",
+      },
+      {
+        label: "Avg. Minutes per Stop",
         type: "number",
         placeholder: "e.g. 5",
         options: ["Mins", "Number"],
         defaultUOM: "Mins",
-        description: "Average minutes it takes your factory operators to complete a single label roll changeover",
+        description:
+          "Average no. of minutes it takes factory operators to complete a single label roll changeover",
       },
       {
         label: "Downtime Cost per Minute",
@@ -81,29 +137,48 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         placeholder: "e.g. 21",
         options: ["$", "Number"],
         defaultUOM: "$",
-        description: "Facility's fully burdened cost for every min the bottling line sits idle",
+        description:
+          "Fully burdened operational cost for every minute the bottling line sits idle",
       },
     ],
   },
 
-  // 4) Increased value of uncontaminated food-grade rPET flakes (no ink bleed)
-  "Increased value of uncontaminated food-grade rPET flakes (no ink bleed)": {
-    vadName: "Increased value of uncontaminated food-grade rPET flakes (no ink bleed)",
+  // 4) Lower Environmental Taxes
+  "Lower Environmental Taxes": {
+    vadName: "Lower Environmental Taxes",
     fields: [
       {
-        label: "Total PET Tonnage",
+        label: "Plastic Weight Total",
         type: "number",
         placeholder: "e.g. 5000",
         options: ["Tons", "Number"],
         defaultUOM: "Tons",
-        description: "Total volume of PET plastic use annually - total bottle production data",
+        description: "Total weight of plastic packaging your company places on the market",
+      },
+      {
+        label: "Old Tax Rate",
+        type: "number",
+        placeholder: "e.g. 250",
+        options: ["$/ton", "Number"],
+        defaultUOM: "$/ton",
+        description:
+          "Standard financial penalty rate currently applied to your packaging by EU PROs",
+      },
+      {
+        label: "New Tax Rate",
+        type: "number",
+        placeholder: "e.g. 130",
+        options: ["$/ton", "Number"],
+        defaultUOM: "$/ton",
+        description:
+          "Discounted eco-modulation fee applied when wash-off labels elevate the bottle to Grade A recyclability rating",
       },
     ],
   },
 
-  // 5) Direct Label Price Premium and Transition Costs
-  "Direct Label Price Premium and Transition Costs": {
-    vadName: "Direct Label Price Premium and Transition Costs",
+  // 5) recycLABEL Implementation Cost (Subtractive)
+  "recycLABEL Implementation Cost (Subtractive)": {
+    vadName: "recycLABEL Implementation Cost (Subtractive)",
     fields: [
       {
         label: "Baseline Price (per 1000 labels)",
@@ -114,12 +189,30 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         description: "Current price you pay per thousand units for your standard labels",
       },
       {
+        label: "Target Price (per 1000 labels)",
+        type: "number",
+        placeholder: "e.g. 6.5",
+        options: ["$", "Number"],
+        defaultUOM: "$",
+        description: "Premium price per thousand units for MCC recycLABEL",
+      },
+      {
         label: "Annual Volume",
         type: "number",
         placeholder: "e.g. 100000000",
         options: ["Number"],
         defaultUOM: "Number",
-        description: "Total annual label purchasing volume to calculate direct cost difference",
+        description:
+          "Total annual label purchasing volume to calculate direct cost difference",
+      },
+      {
+        label: "R&D Testing Fees",
+        type: "number",
+        placeholder: "e.g. 10000",
+        options: ["$", "Number"],
+        defaultUOM: "$",
+        description:
+          "One-time transitional cost for laboratory wash-off testing & line trials to validate the new labels on your equipment",
       },
     ],
   },
