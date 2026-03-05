@@ -93,8 +93,8 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Predicted Production Line Stops",
-      defaultValue: 3333,
-      defaultUOM: "Number",
+      defaultValue: 3,
+      defaultUOM: "Mins",
       owner: "Client (MCC)",
       isUserInput: false,
       inputFieldIndex: 1,

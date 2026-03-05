@@ -267,10 +267,9 @@ export const BuildApp: React.FC = () => {
   // text, etc.). We can infer that from the history arrays maintained for undo/redo – the
   // first time a page is edited we push the previous layout into history. So a non-empty
   // history means the user interacted with the page.
+  // NOTE: Progress map removed - all steps are now always clickable buttons
   const isStepCompleted = (id: "home" | "vads" | "results") => {
-    if (id === "home") return homeHistory.length > 0;
-    if (id === "vads") return vadHistory.length > 0;
-    return resultsHistory.length > 0;
+    return true; // Always show as completed for button styling
   };
 
   return (
@@ -287,7 +286,7 @@ export const BuildApp: React.FC = () => {
           {steps.map((step, index) => {
             const isActive = active === step.id;
             const isCompleted = isStepCompleted(step.id);
-            const isClickable = index === 0 || isStepCompleted(steps[index - 1].id);
+            const isClickable = true; // All steps are now always clickable
             return (
               <div key={step.id} className="builder-step-wrapper">
                 <button
@@ -295,24 +294,17 @@ export const BuildApp: React.FC = () => {
                   className={[
                     "builder-step",
                     isActive ? "builder-step-active" : "",
-                    isCompleted ? "builder-step-completed" : "",
-                    isClickable ? "builder-step-clickable" : "builder-step-disabled",
+                    "builder-step-clickable", // Always clickable now
                   ]
                     .filter(Boolean)
                     .join(" ")}
                   onClick={() => {
                     if (isClickable) setActive(step.id);
                   }}
-                  title={
-                    isCompleted
-                      ? "Step completed"
-                      : isClickable
-                      ? "Click to edit this step"
-                      : "Complete previous steps first"
-                  }
+                  title="Click to edit this step"
                 >
                   <span className="builder-step-index">
-                    {isCompleted ? "✓" : index + 1}
+                    {index + 1}
                   </span>
                   <span className="builder-step-label">{step.label}</span>
                 </button>
@@ -320,7 +312,7 @@ export const BuildApp: React.FC = () => {
                   <div
                     className={[
                       "builder-step-connector",
-                      isStepCompleted(steps[index].id) ? "builder-step-connector-active" : "",
+                      "builder-step-connector-active", // Always active now
                     ]
                       .filter(Boolean)
                       .join(" ")}

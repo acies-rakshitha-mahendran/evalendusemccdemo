@@ -23,11 +23,11 @@ const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValu
         // determine initial value
         let value: string | number = prevEntry?.value ?? "";
 
-        // if we don't have an explicit value yet, try using a default from the
+        // if we don't have an entry yet, try using a default from the
         // field config. this applies to both End Customer inputs (user-facing)
         // and non-customer fields (which already have defaults coming from the
         // VAD_VARIABLES layer).
-        if ((prevEntry == null || prevEntry.value === "") && field.defaultValue != null) {
+        if (prevEntry == null && field.defaultValue != null) {
           value = field.defaultValue;
         }
 
@@ -36,7 +36,7 @@ const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValu
         } else {
           // pull default from variable config if available for non-customer fields
           const variable = VAD_VARIABLES[vadName]?.[idx];
-          if (variable && (prevEntry == null || prevEntry.value === "")) {
+          if (variable && prevEntry == null) {
             value = variable.defaultValue;
           }
         }

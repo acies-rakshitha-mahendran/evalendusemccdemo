@@ -138,7 +138,7 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
       {
         label: "Predicted Production Line Stops",
         type: "number",
-        placeholder: "e.g. 3333",
+        placeholder: "e.g. 3",
         defaultValue: 3600,
         options: ["Number"],
         defaultUOM: "Number",
