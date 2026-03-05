@@ -187,10 +187,22 @@ export const PresentApp: React.FC = () => {
     });
 
     // Aggregate headline metrics (these keys match the default ResultCard labels)
-    const totalAnnualValue = Object.values(res).reduce((acc, n) => acc + (Number.isFinite(n) ? n : 0), 0);
-    const totalInvestments = totalAnnualValue * 0.3; // demo assumption
+    // 1) Total Annual Value = sum of the first four VADs listed in the spec
+    // 2) Total Investments = absolute value of the subtractive cost VAD
+    // 3) Net Benefit (Year 1) = Total Annual Value - Total Investments
+    // 4) ROI = 1 + (Net Benefit / Total Investments)
+    const totalAnnualValue = [
+      "Increased Value of Recycled Plastic",
+      "Lower Freight Costs",
+      "Increased Factory Uptime",
+      "Lower Environmental Taxes",
+    ].reduce((acc, name) => acc + (Number.isFinite(res[name]) ? res[name] : 0), 0);
+
+    const investKey = "recycLABEL Implementation Cost (Subtractive)";
+    const totalInvestments = Math.abs(res[investKey] ?? 0);
+
     const netBenefit = totalAnnualValue - totalInvestments;
-    const roi = totalInvestments === 0 ? 0 : netBenefit / totalInvestments;
+    const roi = totalInvestments === 0 ? 0 : 1 + (netBenefit / totalInvestments);
 
     return {
       ...res,
@@ -303,3 +315,4 @@ export const PresentApp: React.FC = () => {
     </div>
   );
 };
+  
