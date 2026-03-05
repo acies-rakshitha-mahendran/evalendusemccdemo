@@ -5,6 +5,8 @@ export interface InputField {
   label: string;
   type: InputFieldType;
   placeholder?: string;
+  /** If present this value will be used as the initial input value instead of an empty string. */
+  defaultValue?: string | number;
   options?: string[];
   defaultUOM?: string;
   /** Used by InputsRenderer to decide if this value should be collected from the user */
@@ -24,9 +26,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
     vadName: "Increased Value of Recycled Plastic",
     fields: [
       {
-        label: "Total Plastic Weight",
+        label: "Annual Procurred Plastic Tonnage",
         type: "number",
         placeholder: "e.g. 5000",
+        defaultValue: 5100,
         options: ["Tons", "Number"],
         defaultUOM: "Tons",
         owner: "End Customer",
@@ -71,9 +74,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
     vadName: "Lower Freight Costs",
     fields: [
       {
-        label: "Old Pallet Weight",
+        label: "Current Weight of Plastic",
         type: "number",
         placeholder: "e.g. 400",
+        defaultValue: 350,
         options: ["lbs", "Number"],
         defaultUOM: "lbs",
         owner: "End Customer",
@@ -92,6 +96,7 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         label: "Total Pallets",
         type: "number",
         placeholder: "e.g. 2000",
+        defaultValue: 2000,
         options: ["Number"],
         defaultUOM: "Number",
         owner: "End Customer",
@@ -115,9 +120,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
     vadName: "Increased Factory Uptime",
     fields: [
       {
-        label: "Old Machine Stops",
+        label: "Current Production Line Stops",
         type: "number",
         placeholder: "e.g. 5000",
+        defaultValue: 5000,
         options: ["Number"],
         defaultUOM: "Number",
         owner: "End Customer",
@@ -138,6 +144,7 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         label: "Avg. Minutes per Stop",
         type: "number",
         placeholder: "e.g. 5",
+        defaultValue: 3,
         options: ["Mins", "Number"],
         defaultUOM: "Mins",
         owner: "End Customer",
@@ -145,9 +152,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
           "Average no. of minutes it takes factory operators to complete a single label roll changeover",
       },
       {
-        label: "Downtime Cost per Minute",
+        label: "Estimated Downtime Cost per Minute",
         type: "number",
         placeholder: "e.g. 21",
+        defaultValue: 6,
         options: ["$", "Number"],
         defaultUOM: "$",
         owner: "End Customer",
@@ -162,9 +170,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
     vadName: "Lower Environmental Taxes",
     fields: [
       {
-        label: "Plastic Weight Total",
+        label: "Total Plastic Weight Produced",
         type: "number",
         placeholder: "e.g. 5000",
+        defaultValue: 5100,
         options: ["Tons", "Number"],
         defaultUOM: "Tons",
         owner: "End Customer",
@@ -198,9 +207,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
     vadName: "recycLABEL Implementation Cost (Subtractive)",
     fields: [
       {
-        label: "Baseline Price (per 1000 labels)",
+        label: "Current Price (per 1000 labels)",
         type: "number",
         placeholder: "e.g. 4",
+        defaultValue: 4,
         options: ["$", "Number"],
         defaultUOM: "$",
         owner: "End Customer",
@@ -216,9 +226,10 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         description: "Premium price per thousand units for MCC recycLABEL",
       },
       {
-        label: "Annual Volume",
+        label: "Annual Procurred Label Volume",
         type: "number",
         placeholder: "e.g. 100000000",
+        defaultValue: 50000000,
         options: ["Number"],
         defaultUOM: "Number",
         owner: "End Customer",

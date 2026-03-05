@@ -15,13 +15,13 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     category: "Circular Economy Yield",
     dimension: "Circular Economy Yield",
     variables: [
-      "Total Plastic Weight",
+      "Annual Procurred Plastic Tonnage",
       "Old Plastic Waste Percentage",
       "New Plastic Waste Percentage",
       "Price of Recycled Plastic per Ton",
     ],
     expression:
-      "Value = Total Plastic Weight * (Old Plastic Waste % - New Plastic Waste %) * Price of Recycled Plastic per Ton",
+      "Value = Annual Procurred Plastic Tonnage * (Old Plastic Waste % - New Plastic Waste %) * Price of Recycled Plastic per Ton",
     description:
       "Added revenue from recovering more high-quality, uncontaminated food-grade plastic during the recycling process.",
   },
@@ -29,13 +29,13 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     category: "Supply Chain Efficiency",
     dimension: "Reduced Freight Cost",
     variables: [
-      "Old Pallet Weight",
+      "Current Weight of Plastic",
       "New Pallet Weight",
       "Total Pallets",
       "Freight Cost per lb",
     ],
     expression:
-      "Value = ((Old Pallet Weight - New Pallet Weight) * Total Pallets) * Freight Cost per lb",
+      "Value = ((Current Weight of Plastic - New Pallet Weight) * Total Pallets) * Freight Cost per lb",
     description:
       "Reduction in inbound shipping expenses due to the lighter weight and smaller footprint of thinner label rolls.",
   },
@@ -43,13 +43,13 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     category: "Operational Efficiency",
     dimension: "Reduced Line Stops",
     variables: [
-      "Old Machine Stops",
+      "Current Production Line Stops",
       "New Machine Stops",
       "Avg minutes per Stop",
-      "Downtime Cost per Minute",
+      "Estimated Downtime Cost per Minute",
     ],
     expression:
-      "Value = (Old Machine Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min",
+      "Value = (Current Production Line Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min",
     description:
       "Operational cost savings gained by reducing bottling line stoppages because thinner films fit more labels onto a single roll.",
   },
@@ -57,12 +57,12 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     category: "Regulatory Compliance",
     dimension: "Avoided Cost",
     variables: [
-      "Plastic Weight Total",
+      "Total Plastic Weight Produced",
       "Old Tax Rate",
       "New Tax Rate",
     ],
     expression:
-      "Value = Total Plastic Weight * (Old Tax Rate - New Tax Rate)",
+      "Value = Annual Procurred Plastic Tonnage * (Old Tax Rate - New Tax Rate)",
     description:
       "Financial savings from avoiding regulatory penalties by elevating the bottles to Grade A recyclability rating.",
   },
@@ -70,13 +70,13 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     category: "Implementation Cost",
     dimension: "Implementation Cost",
     variables: [
-      "Baseline Price (per 1000 labels)",
+      "Current Price (per 1000 labels)",
       "Target Price (per 1000 labels)",
-      "Annual Volume",
+      "Annual Procurred Label Volume",
       "R&D Testing Fees",
     ],
     expression:
-      "-1 * (Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Volume / 1000) + R&D Testing Fees",
+      "-1 * (Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Procurred Label Volume / 1000) + R&D Testing Fees",
     description:
       "Net investment required to purchase the premium sustainable labels & validate them on factory lines.",
   },

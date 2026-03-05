@@ -20,16 +20,27 @@ const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValu
     if (config) {
       config.fields.forEach((field, idx) => {
         const prevEntry = existing[idx];
-        // determine initial value: if the field is not collected from user, use the
-        // hard-coded default value (from VAD_VARIABLES) so calculations work.
+        // determine initial value
         let value: string | number = prevEntry?.value ?? "";
-        if (field.owner && field.owner !== "End Customer") {
-          // pull default from variable config if available
+
+        // if we don't have an explicit value yet, try using a default from the
+        // field config. this applies to both End Customer inputs (user-facing)
+        // and non-customer fields (which already have defaults coming from the
+        // VAD_VARIABLES layer).
+        if ((prevEntry == null || prevEntry.value === "") && field.defaultValue != null) {
+          value = field.defaultValue;
+        }
+
+        if (!field.owner || field.owner === "End Customer") {
+          // no additional logic needed; defaults have been applied above
+        } else {
+          // pull default from variable config if available for non-customer fields
           const variable = VAD_VARIABLES[vadName]?.[idx];
           if (variable && (prevEntry == null || prevEntry.value === "")) {
             value = variable.defaultValue;
           }
         }
+
         next[vadName][idx] = {
           value,
           uom: prevEntry?.uom ?? field.defaultUOM ?? "$",

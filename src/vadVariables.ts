@@ -12,7 +12,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   // Increased Value of Recycled Plastic
   "Increased Value of Recycled Plastic": [
     {
-      label: "Total Plastic Weight",
+      label: "Annual Procurred Plastic Tonnage",
       defaultValue: 0, // user will supply
       defaultUOM: "tonne",
       owner: "End Customer",
@@ -48,7 +48,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   // Lower Freight Costs
   "Lower Freight Costs": [
     {
-      label: "Old Pallet Weight",
+      label: "Current Weight of Plastic",
       defaultValue: 0,
       defaultUOM: "lbs",
       owner: "End Customer",
@@ -84,7 +84,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   // Increased Factory Uptime
   "Increased Factory Uptime": [
     {
-      label: "Old Machine Stops",
+      label: "Current Production Line Stops",
       defaultValue: 0,
       defaultUOM: "Number",
       owner: "End Customer",
@@ -108,7 +108,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 2,
     },
     {
-      label: "Downtime Cost per Minute",
+      label: "Estimated Downtime Cost per Minute",
       defaultValue: 0,
       defaultUOM: "$",
       owner: "End Customer",
@@ -120,7 +120,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   // Lower Environmental Taxes
   "Lower Environmental Taxes": [
     {
-      label: "Plastic Weight Total",
+      label: "Total Plastic Weight Produced",
       defaultValue: 0,
       defaultUOM: "tonne",
       owner: "End Customer",
@@ -148,7 +148,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   // recycLABEL Implementation Cost (Subtractive)
   "recycLABEL Implementation Cost (Subtractive)": [
     {
-      label: "Baseline Price (per 1000 labels)",
+      label: "Current Price (per 1000 labels)",
       defaultValue: 0,
       defaultUOM: "$",
       owner: "End Customer",
@@ -164,7 +164,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 1,
     },
     {
-      label: "Annual Volume",
+      label: "Annual Procurred Label Volume",
       defaultValue: 0,
       defaultUOM: "Number",
       owner: "End Customer",
