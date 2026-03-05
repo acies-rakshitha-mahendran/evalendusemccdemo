@@ -224,6 +224,24 @@ const VadPropertiesPanel: React.FC = () => {
           }}
         />
       </div>
+      {meta.description && (
+        <div>
+          <label style={{ display: "block", fontSize: 11, marginBottom: "0.25rem", opacity: 0.85 }}>Description</label>
+          <textarea
+            readOnly
+            value={meta.description}
+            rows={2}
+            style={{
+              fontSize: 11,
+              padding: "0.4rem 0.5rem",
+              width: "100%",
+              boxSizing: "border-box",
+              resize: "none",
+              fontFamily: "inherit",
+            }}
+          />
+        </div>
+      )}
       <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
         <label style={{ display: "block", fontSize: 11, marginBottom: "0.25rem", opacity: 0.85 }}>Expression</label>
         <textarea

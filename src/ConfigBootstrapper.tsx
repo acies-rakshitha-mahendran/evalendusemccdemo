@@ -16,6 +16,7 @@ import {
   VADResultsList,
 } from "./builder/craft/craftNodes";
 import { VAD_INPUT_CONFIGS } from "./vadInputs";
+import { useBootstrap } from "./BootstrapContext";
 
 const DEMO_PROJECT_ID = "demo-project";
 const PRODUCT_IMAGE_URL =
@@ -207,11 +208,9 @@ const SeedLayout: React.FC<{ mode: SeedMode; onSerialized: (json: string) => voi
             color="#334155"
           />
           <div style={{ height: 10 }} />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 12 }}>
-            {allVads.map((vadName) => (
-              <VADBlock key={vadName} title={vadName} />
-            ))}
-          </div>
+          {allVads.map((vadName) => (
+            <VADBlock key={vadName} title={vadName} />
+          ))}
         </Element>
       );
     }
@@ -259,6 +258,7 @@ const SeedLayout: React.FC<{ mode: SeedMode; onSerialized: (json: string) => voi
 };
 
 export const ConfigBootstrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const { notifyBootstrapComplete } = useBootstrap();
   const [existing] = useState<ProjectBuildConfig | null>(() => readStoredConfig());
   const needsSeed = (cfg: ProjectBuildConfig | null) => {
     if (!cfg || cfg.projectId !== DEMO_PROJECT_ID) return true;
@@ -292,8 +292,12 @@ export const ConfigBootstrapper: React.FC<React.PropsWithChildren> = ({ children
       resultsLayout: base?.resultsLayout ?? seed.results ?? null,
     };
 
-    saveBuildConfig(cfg).then(() => setReady(true));
-  }, [existing, ready, seed.home, seed.vads, seed.results]);
+    saveBuildConfig(cfg).then(() => {
+      setReady(true);
+      // Notify that bootstrap is complete so BuildApp can reload
+      notifyBootstrapComplete();
+    });
+  }, [existing, ready, seed.home, seed.vads, seed.results, notifyBootstrapComplete]);
 
   if (ready) return <>{children}</>;
 

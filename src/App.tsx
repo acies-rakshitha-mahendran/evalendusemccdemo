@@ -3,6 +3,7 @@ import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom"
 import { BuildApp } from "./builder/BuildApp";
 import { PresentApp } from "./present/PresentApp";
 import { ConfigBootstrapper } from "./ConfigBootstrapper";
+import { BootstrapProvider } from "./BootstrapContext";
 
 const TopNav: React.FC = () => {
   const loc = useLocation();
@@ -40,18 +41,20 @@ const TopNav: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ConfigBootstrapper>
-      <div className="app-root">
-        <div className="build-shell">
-          <TopNav />
-          <Routes>
-            <Route path="/build" element={<BuildApp />} />
-            <Route path="/present" element={<PresentApp />} />
-            <Route path="*" element={<BuildApp />} />
-          </Routes>
+    <BootstrapProvider>
+      <ConfigBootstrapper>
+        <div className="app-root">
+          <div className="build-shell">
+            <TopNav />
+            <Routes>
+              <Route path="/build" element={<BuildApp />} />
+              <Route path="/present" element={<PresentApp />} />
+              <Route path="*" element={<BuildApp />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </ConfigBootstrapper>
+      </ConfigBootstrapper>
+    </BootstrapProvider>
   );
 };
 
