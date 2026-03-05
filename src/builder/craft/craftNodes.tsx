@@ -646,9 +646,27 @@ export const ResultCard: React.FC<{ label?: string; value?: string; resultKey?: 
     const numericResults = results;
     if (Object.prototype.hasOwnProperty.call(numericResults, key)) {
       const numeric = numericResults[key];
-      displayValue = numeric.toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      });
+      const dollarKeys = new Set([
+        "Total Annual Value",
+        "Total Investments",
+        "Net Benefit (Year 1)",
+      ]);
+
+      if (key === "ROI") {
+        // ROI is stored as a multiple (e.g. 1.36); display as a percentage.
+        const pct = (numeric - 1) * 100;
+        displayValue = `${pct.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}%`;
+      } else if (dollarKeys.has(key)) {
+        displayValue = `$${numeric.toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+        })}`;
+      } else {
+        displayValue = numeric.toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+        });
+      }
     }
   }
   
