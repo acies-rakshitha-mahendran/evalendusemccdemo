@@ -8,7 +8,6 @@ import { ResultsPage } from "./ResultsPage";
 import type { VADInputValue } from "../evalContext";
 import { detectSelectedVADsFromLayout } from "../vadSelection";
 import { VAD_INPUT_CONFIGS } from "../vadInputs";
-import { usePersistentState } from "../hooks/usePersistentState";
 
 type PresentTab = "home" | "vads" | "results";
 
@@ -74,7 +73,7 @@ export const PresentApp: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Record<string, number> | null>(null);
   // Raw inputs coming from the InputsRenderer (keyed by VAD name and field index)
-  const [inputValues, setInputValues] = usePersistentState<VADInputValue>("vad-inputs", {});
+  const [inputValues, setInputValues] = useState<VADInputValue>({});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

@@ -151,8 +151,8 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         type: "number",
         placeholder: "e.g. 5",
         defaultValue: 3,
-        options: ["Mins", "Number"],
-        defaultUOM: "Mins",
+        options: ["Minutes", "Number"],
+        defaultUOM: "Minutes",
         owner: "End Customer",
         description:
           "Average time required for operators to complete a label roll changeover",
@@ -227,7 +227,7 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
       {
         label: "New Price (per 1000 labels)",
         type: "number",
-        placeholder: "e.g. 6.5",
+        placeholder: "e.g.5",
         defaultValue: 5,
         options: ["$", "Number"],
         defaultUOM: "$",
