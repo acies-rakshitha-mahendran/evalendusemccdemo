@@ -142,7 +142,6 @@ export const BuildApp: React.FC = () => {
     page: "home" | "vads" | "results",
     prev: CraftLayout | null
   ) => {
-    if (prev == null) return;
     const trim = (arr: CraftLayout[]) => (arr.length > 20 ? arr.slice(arr.length - 20) : arr);
     if (page === "home") {
       setHomeHistory((h) => trim([...h, prev]));
