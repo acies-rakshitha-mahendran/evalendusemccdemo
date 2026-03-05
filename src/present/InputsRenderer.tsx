@@ -124,9 +124,10 @@ export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInpu
             )}
 
             {config.fields
-        .filter((f) => f.owner === "End Customer") // only show fields that the user should enter
-        .map((field, fieldIndex) => (
-          <div key={`${vadName}-${fieldIndex}`} style={{ marginBottom: "0.9rem" }}>
+        .map((field, actualIndex) => ({ field, actualIndex }))
+        .filter(({ field }) => field.owner === "End Customer") // only show fields that the user should enter
+        .map(({ field, actualIndex }) => (
+          <div key={`${vadName}-${actualIndex}`} style={{ marginBottom: "0.9rem" }}>
             <label
               style={{
                 display: "block",
@@ -162,8 +163,8 @@ export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInpu
               <input
                 type="number"
                 placeholder={field.placeholder}
-                value={inputs[vadName]?.[fieldIndex]?.value || ""}
-                onChange={(e) => handleValueChange(vadName, fieldIndex, e.target.value)}
+                value={inputs[vadName]?.[actualIndex]?.value || ""}
+                onChange={(e) => handleValueChange(vadName, actualIndex, e.target.value)}
                 style={{
                   ...inputStyle,
                   flex: 1,
@@ -172,8 +173,8 @@ export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInpu
 
               {field.options && (
                 <select
-                  value={inputs[vadName]?.[fieldIndex]?.uom || field.defaultUOM || "$"}
-                  onChange={(e) => handleUOMChange(vadName, fieldIndex, e.target.value)}
+                  value={inputs[vadName]?.[actualIndex]?.uom || field.defaultUOM || "$"}
+                  onChange={(e) => handleUOMChange(vadName, actualIndex, e.target.value)}
                   style={{
                     ...inputStyle,
                     flex: 1,
