@@ -13,7 +13,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   "Increased Value of Recycled Plastic": [
     {
       label: "Annual Procurred Plastic Tonnage",
-      defaultValue: 0, // user will supply
+      defaultValue: 5100, // user will supply
       defaultUOM: "tonne",
       owner: "End Customer",
       isUserInput: true,
@@ -29,7 +29,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Predicted Plastic Waste Percentage",
-      defaultValue: 0.5,
+      defaultValue: 15,
       defaultUOM: "%",
       owner: "Client (MCC)",
       isUserInput: false,
@@ -37,7 +37,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Price of Recycled Plastic per Ton",
-      defaultValue: 427.69,
+      defaultValue: 60,
       defaultUOM: "$",
       owner: "Third Party",
       isUserInput: false,
@@ -49,7 +49,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   "Lower Freight Costs": [
     {
       label: "Current Weight of Plastic",
-      defaultValue: 0,
+      defaultValue: 350,
       defaultUOM: "lbs",
       owner: "End Customer",
       isUserInput: true,
@@ -57,7 +57,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "New Weight of Plastic",
-      defaultValue: 280,
+      defaultValue: 330,
       defaultUOM: "lbs",
       owner: "Client (MCC)",
       isUserInput: false,
@@ -65,7 +65,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Total Pallets",
-      defaultValue: 0,
+      defaultValue: 2000,
       defaultUOM: "Number",
       owner: "End Customer",
       isUserInput: true,
@@ -73,7 +73,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Freight Cost per lb",
-      defaultValue: 0.15,
+      defaultValue: 0.1,
       defaultUOM: "$",
       owner: "Third Party",
       isUserInput: false,
@@ -85,7 +85,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   "Increased Factory Uptime": [
     {
       label: "Current Production Line Stops",
-      defaultValue: 0,
+      defaultValue: 5000,
       defaultUOM: "Number",
       owner: "End Customer",
       isUserInput: true,
@@ -93,15 +93,15 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Predicted Production Line Stops",
-      defaultValue: 3,
-      defaultUOM: "Mins",
+      defaultValue: 3600,
+      defaultUOM: "Number",
       owner: "Client (MCC)",
       isUserInput: false,
       inputFieldIndex: 1,
     },
     {
       label: "Avg. Minutes per Stop",
-      defaultValue: 0,
+      defaultValue: 3,
       defaultUOM: "Mins",
       owner: "End Customer",
       isUserInput: true,
@@ -109,7 +109,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Estimated Downtime Cost per Minute",
-      defaultValue: 0,
+      defaultValue: 6,
       defaultUOM: "$",
       owner: "End Customer",
       isUserInput: true,
@@ -121,7 +121,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   "Lower Environmental Taxes": [
     {
       label: "Total Plastic Weight Produced",
-      defaultValue: 0,
+      defaultValue: 5100,
       defaultUOM: "tonne",
       owner: "End Customer",
       isUserInput: true,
@@ -129,7 +129,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Current Tax Rate (Grade C)",
-      defaultValue: 250,
+      defaultValue: 200,
       defaultUOM: "$/ton",
       owner: "Third Party",
       isUserInput: false,
@@ -137,7 +137,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Predicted Tax Rate (Grade A)",
-      defaultValue: 130,
+      defaultValue: 190,
       defaultUOM: "$/ton",
       owner: "Third Party",
       isUserInput: false,
@@ -149,7 +149,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
   "recycLABEL Implementation Cost (Subtractive)": [
     {
       label: "Current Price (per 1000 labels)",
-      defaultValue: 0,
+      defaultValue: 4,
       defaultUOM: "$",
       owner: "End Customer",
       isUserInput: true,
@@ -157,7 +157,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "New Price (per 1000 labels)",
-      defaultValue: 6.5,
+      defaultValue: 5,
       defaultUOM: "$",
       owner: "Client (MCC)",
       isUserInput: false,
@@ -165,7 +165,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "Annual Procurred Label Volume",
-      defaultValue: 0,
+      defaultValue: 50000000,
       defaultUOM: "Number",
       owner: "End Customer",
       isUserInput: true,
@@ -173,7 +173,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     },
     {
       label: "R&D Testing Fees",
-      defaultValue: 10000,
+      defaultValue: 20000,
       defaultUOM: "$",
       owner: "Client (MCC)",
       isUserInput: false,
