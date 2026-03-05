@@ -188,9 +188,9 @@ export const PresentApp: React.FC = () => {
 
     // Aggregate headline metrics (these keys match the default ResultCard labels)
     const totalAnnualValue = Object.values(res).reduce((acc, n) => acc + (Number.isFinite(n) ? n : 0), 0);
-    const totalInvestments = totalAnnualValue * 0.3; // demo assumption
+    const totalInvestments = totalAnnualValue * 0.735; // demo assumption
     const netBenefit = totalAnnualValue - totalInvestments;
-    const roi = totalInvestments === 0 ? 0 : netBenefit / totalInvestments;
+    const roi = totalInvestments === 0 ? 0 : 1 + (netBenefit / totalInvestments);
 
     return {
       ...res,

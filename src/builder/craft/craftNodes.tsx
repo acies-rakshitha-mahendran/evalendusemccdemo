@@ -646,9 +646,19 @@ export const ResultCard: React.FC<{ label?: string; value?: string; resultKey?: 
     const numericResults = results;
     if (Object.prototype.hasOwnProperty.call(numericResults, key)) {
       const numeric = numericResults[key];
-      displayValue = numeric.toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      });
+      
+      // Special formatting for different metric types
+      if (key === "ROI") {
+        displayValue = `${numeric.toFixed(2)}x`;
+      } else if (key === "Total Investments" || key === "Net Benefit (Year 1)" || key === "Total Annual Value" || key.includes("Cost") || key.includes("Investment")) {
+        displayValue = `$${numeric.toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+        })}`;
+      } else {
+        displayValue = numeric.toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+        });
+      }
     }
   }
   
