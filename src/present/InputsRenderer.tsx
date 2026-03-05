@@ -165,6 +165,10 @@ export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInpu
                 placeholder={field.placeholder}
                 value={inputs[vadName]?.[actualIndex]?.value || ""}
                 onChange={(e) => handleValueChange(vadName, actualIndex, e.target.value)}
+                onWheel={(e) => {
+                  // Prevent scroll-wheel from changing the value when the input is focused.
+                  e.currentTarget.blur();
+                }}
                 style={{
                   ...inputStyle,
                   flex: 1,
