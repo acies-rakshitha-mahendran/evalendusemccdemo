@@ -1,6 +1,8 @@
 // src/present/InputsRenderer.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import { VAD_INPUT_CONFIGS } from "../vadInputs";
+import { VAD_VARIABLES } from "../vadVariables";
+import { VAD_METADATA } from "../vadMetadata";
 import type { VADInputValue } from "../evalContext";
 
 interface InputsRendererProps {
@@ -18,8 +20,18 @@ const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValu
     if (config) {
       config.fields.forEach((field, idx) => {
         const prevEntry = existing[idx];
+        // determine initial value: if the field is not collected from user, use the
+        // hard-coded default value (from VAD_VARIABLES) so calculations work.
+        let value: string | number = prevEntry?.value ?? "";
+        if (field.owner && field.owner !== "End Customer") {
+          // pull default from variable config if available
+          const variable = VAD_VARIABLES[vadName]?.[idx];
+          if (variable && (prevEntry == null || prevEntry.value === "")) {
+            value = variable.defaultValue;
+          }
+        }
         next[vadName][idx] = {
-          value: prevEntry?.value ?? "",
+          value,
           uom: prevEntry?.uom ?? field.defaultUOM ?? "$",
         };
       });
@@ -86,71 +98,86 @@ export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInpu
             <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: "0.75rem", color: "#55883B" }}>
               {vadName}
             </div>
-
-            {config.fields.map((field, fieldIndex) => (
-              <div key={`${vadName}-${fieldIndex}`} style={{ marginBottom: "0.9rem" }}>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "12px",
-                    marginBottom: "0.35rem",
-                    fontWeight: 500,
-                  }}
-                >
-                  {field.label}
-                </label>
-                {field.description && (
-                  <p
-                    style={{
-                      margin: "0 0 0.4rem 0",
-                      fontSize: "11px",
-                      color: "var(--text-muted, #6b7280)",
-                      lineHeight: 1.4,
-                      maxWidth: "42rem",
-                    }}
-                  >
-                    {field.description}
-                  </p>
-                )}
-
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                    gap: "0.75rem",
-                    alignItems: "center",
-                  }}
-                >
-                  <input
-                    type="number"
-                    placeholder={field.placeholder}
-                    value={inputs[vadName]?.[fieldIndex]?.value || ""}
-                    onChange={(e) => handleValueChange(vadName, fieldIndex, e.target.value)}
-                    style={{
-                      ...inputStyle,
-                      flex: 1,
-                    }}
-                  />
-
-                  {field.options && (
-                    <select
-                      value={inputs[vadName]?.[fieldIndex]?.uom || field.defaultUOM || "$"}
-                      onChange={(e) => handleUOMChange(vadName, fieldIndex, e.target.value)}
-                      style={{
-                        ...inputStyle,
-                        flex: 1,
-                      }}
-                    >
-                      {field.options.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                </div>
+            {/* show a brief description of the VAD to give context */}
+            {VAD_METADATA[vadName]?.description && (
+              <div
+                style={{
+                  fontSize: "11px",
+                  color: "#4b5563",
+                  marginBottom: "0.75rem",
+                  lineHeight: 1.4,
+                }}
+              >
+                {VAD_METADATA[vadName]?.description}
               </div>
-            ))}
+            )}
+
+            {config.fields
+        .filter((f) => f.owner === "End Customer") // only show fields that the user should enter
+        .map((field, fieldIndex) => (
+          <div key={`${vadName}-${fieldIndex}`} style={{ marginBottom: "0.9rem" }}>
+            <label
+              style={{
+                display: "block",
+                fontSize: "12px",
+                marginBottom: "0.35rem",
+                fontWeight: 500,
+              }}
+            >
+              {field.label}
+            </label>
+            {field.description && (
+              <p
+                style={{
+                  margin: "0 0 0.4rem 0",
+                  fontSize: "11px",
+                  color: "var(--text-muted, #6b7280)",
+                  lineHeight: 1.4,
+                  maxWidth: "42rem",
+                }}
+              >
+                {field.description}
+              </p>
+            )}
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                gap: "0.75rem",
+                alignItems: "center",
+              }}
+            >
+              <input
+                type="number"
+                placeholder={field.placeholder}
+                value={inputs[vadName]?.[fieldIndex]?.value || ""}
+                onChange={(e) => handleValueChange(vadName, fieldIndex, e.target.value)}
+                style={{
+                  ...inputStyle,
+                  flex: 1,
+                }}
+              />
+
+              {field.options && (
+                <select
+                  value={inputs[vadName]?.[fieldIndex]?.uom || field.defaultUOM || "$"}
+                  onChange={(e) => handleUOMChange(vadName, fieldIndex, e.target.value)}
+                  style={{
+                    ...inputStyle,
+                    flex: 1,
+                  }}
+                >
+                  {field.options.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          </div>
+        ))}
           </div>
         );
       })}

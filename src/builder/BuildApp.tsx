@@ -7,6 +7,7 @@ import { VadBuilderPage } from "./VadBuilderPage";
 import { ResultsBuilderPage } from "./ResultsBuilderPage";
 import { detectSelectedVADsFromLayout } from "../vadSelection";
 import { useNavigate } from "react-router-dom";
+import { useBootstrap } from "../BootstrapContext";
 
 const DEMO_PROJECT_ID = "demo-project";
 
@@ -64,6 +65,7 @@ const applyTheme = (theme: ThemeConfig) => {
 
 export const BuildApp: React.FC = () => {
   const navigate = useNavigate();
+  const { isBootstrapReady } = useBootstrap();
   const [active, setActive] = useState<"home" | "vads" | "results">("home");
   const [homeData, setHomeData] = useState<CraftLayout>(null);
   const [vadData, setVadData] = useState<CraftLayout>(null);
@@ -90,6 +92,18 @@ export const BuildApp: React.FC = () => {
       setResultsData(cfg.resultsLayout ?? null);
     });
   }, []);
+
+  // Reload config after bootstrap is complete (seed layouts have been saved)
+  useEffect(() => {
+    if (!isBootstrapReady) return;
+    loadBuildConfig(DEMO_PROJECT_ID).then((cfg) => {
+      if (!cfg) return;
+      setTheme(cfg.theme ?? defaultTheme);
+      setHomeData(cfg.homeLayout ?? null);
+      setVadData(cfg.vadLayout ?? null);
+      setResultsData(cfg.resultsLayout ?? null);
+    });
+  }, [isBootstrapReady]);
 
   useEffect(() => {
     applyTheme(theme);

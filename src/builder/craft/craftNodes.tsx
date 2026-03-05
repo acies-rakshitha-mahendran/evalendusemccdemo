@@ -1,5 +1,6 @@
 import React from "react";
-import { useNode } from "@craftjs/core";
+import { useNode, useEditor } from "@craftjs/core";
+import { VAD_METADATA } from "../../vadMetadata";
 import { ResultsContext } from "../../resultsContext";
 import { EvalContext } from "../../evalContext";
 import { VAD_VARIABLES } from "../../vadVariables";
@@ -559,8 +560,16 @@ export const VADBlock: React.FC<{ title?: string; vadId?: string; backgroundColo
   backgroundColor,
   color,
 }) => {
-  const { connectors } = useNode();
-  
+  // we need access to the node id so we can ask the editor to delete it
+  const { connectors, id } = useNode((node) => ({ id: node.id }));
+  const { actions } = useEditor();
+  const description = title ? VAD_METADATA[title]?.description : undefined;
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    actions.delete(id);
+  };
+
   return (
     <div
       ref={(ref) => {
@@ -571,6 +580,7 @@ export const VADBlock: React.FC<{ title?: string; vadId?: string; backgroundColo
       }}
       className="glass-card"
       style={{
+        position: "relative",
         marginBottom: 8,
         display: "flex",
         flexDirection: "column",
@@ -582,7 +592,31 @@ export const VADBlock: React.FC<{ title?: string; vadId?: string; backgroundColo
         cursor: "pointer",
       }}
     >
+      {/* remove button */}
+      <button
+        onClick={handleRemove}
+        style={{
+          position: "absolute",
+          top: 2,
+          right: 4,
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+          fontSize: 12,
+          lineHeight: 1,
+          opacity: 0.6,
+        }}
+        title="Remove VAD"
+      >
+        ×
+      </button>
+
       <div style={{ fontSize: 12, fontWeight: 600, color: color || "#55883B", wordBreak: "break-word" }}>{title}</div>
+      {description && (
+        <div style={{ fontSize: 10, color: "#4b5563", opacity: 0.85 }}>
+          {description}
+        </div>
+      )}
       {vadId ? (
         <div style={{ fontSize: 10, color: color || "#55883B", opacity: 0.7 }}>
           {`VAD ID: ${vadId}`}

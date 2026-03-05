@@ -7,6 +7,7 @@ export interface VADMeta {
   dimension: string;
   variables: string[];
   expression: string;
+  description?: string; // short summary for builder UI
 }
 
 export const VAD_METADATA: Record<string, VADMeta> = {
@@ -21,6 +22,8 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     ],
     expression:
       "Value = Total Plastic Weight * (Old Plastic Waste % - New Plastic Waste %) * Price of Recycled Plastic per Ton",
+    description:
+      "Added revenue from recovering more high-quality, uncontaminated food-grade plastic during the recycling process.",
   },
   "Lower Freight Costs": {
     category: "Supply Chain Efficiency",
@@ -33,6 +36,8 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     ],
     expression:
       "Value = ((Old Pallet Weight - New Pallet Weight) * Total Pallets) * Freight Cost per lb",
+    description:
+      "Reduction in inbound shipping expenses due to the lighter weight and smaller footprint of thinner label rolls.",
   },
   "Increased Factory Uptime": {
     category: "Operational Efficiency",
@@ -45,6 +50,8 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     ],
     expression:
       "Value = (Old Machine Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min",
+    description:
+      "Operational cost savings gained by reducing bottling line stoppages because thinner films fit more labels onto a single roll.",
   },
   "Lower Environmental Taxes": {
     category: "Regulatory Compliance",
@@ -56,6 +63,8 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     ],
     expression:
       "Value = Total Plastic Weight * (Old Tax Rate - New Tax Rate)",
+    description:
+      "Financial savings from avoiding regulatory penalties by elevating the bottles to Grade A recyclability rating.",
   },
   "recycLABEL Implementation Cost (Subtractive)": {
     category: "Implementation Cost",
@@ -68,5 +77,7 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     ],
     expression:
       "-1 * (Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Volume / 1000) + R&D Testing Fees",
+    description:
+      "Net investment required to purchase the premium sustainable labels & validate them on factory lines.",
   },
 };
