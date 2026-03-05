@@ -105,7 +105,9 @@ export const PresentApp: React.FC = () => {
     const entry = fields[index];
     if (!entry) return 0;
     const raw = entry.value;
-    const n = typeof raw === "number" ? raw : parseFloat(String(raw ?? ""));
+    if (typeof raw === "number") return raw;
+    const cleaned = String(raw ?? "").replace(/,/g, "");
+    const n = parseFloat(cleaned);
     return isNaN(n) ? 0 : n;
   };
 

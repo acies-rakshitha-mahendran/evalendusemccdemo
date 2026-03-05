@@ -11,6 +11,16 @@ interface InputsRendererProps {
   initialInputs?: VADInputValue;
 }
 
+const numberFormatter = new Intl.NumberFormat("en-US");
+
+const formatNumberForDisplay = (value: string | number): string => {
+  if (value === "" || value == null) return "";
+  const str = String(value).replace(/,/g, "");
+  const n = parseFloat(str);
+  if (isNaN(n)) return String(value);
+  return numberFormatter.format(n);
+};
+
 const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValue => {
   const next: VADInputValue = {};
   vadNames.forEach((vadName) => {
@@ -32,7 +42,10 @@ const buildSeedInputs = (vadNames: string[], base?: VADInputValue): VADInputValu
         }
 
         if (!field.owner || field.owner === "End Customer") {
-          // no additional logic needed; defaults have been applied above
+          // For End Customer numeric fields, format with US commas for display
+          if (field.type === "number" && value !== "") {
+            value = formatNumberForDisplay(value);
+          }
         } else {
           // pull default from variable config if available for non-customer fields
           const variable = VAD_VARIABLES[vadName]?.[idx];
@@ -161,10 +174,22 @@ export const InputsRenderer: React.FC<InputsRendererProps> = ({ vadNames, onInpu
               }}
             >
               <input
-                type="number"
+                type="text"
+                inputMode="decimal"
                 placeholder={field.placeholder}
                 value={inputs[vadName]?.[actualIndex]?.value || ""}
-                onChange={(e) => handleValueChange(vadName, actualIndex, e.target.value)}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  // Strip existing commas, keep digits and decimal point
+                  const cleaned = raw.replace(/,/g, "");
+                  if (cleaned === "") {
+                    handleValueChange(vadName, actualIndex, "");
+                    return;
+                  }
+                  const n = parseFloat(cleaned);
+                  const formatted = isNaN(n) ? raw : formatNumberForDisplay(n);
+                  handleValueChange(vadName, actualIndex, formatted);
+                }}
                 onWheel={(e) => {
                   // Prevent scroll-wheel from changing the value when the input is focused.
                   e.currentTarget.blur();
