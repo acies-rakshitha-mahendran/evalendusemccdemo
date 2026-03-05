@@ -262,10 +262,16 @@ export const BuildApp: React.FC = () => {
     { id: "results", label: "Results" },
   ];
 
+  // Previously the progress indicator marked a step complete simply if a layout existed,
+  // which meant freshly seeded/default pages showed as "complete" immediately. The user
+  // wanted the checkmark only once they actually made a change (dragged a component, edited
+  // text, etc.). We can infer that from the history arrays maintained for undo/redo – the
+  // first time a page is edited we push the previous layout into history. So a non-empty
+  // history means the user interacted with the page.
   const isStepCompleted = (id: "home" | "vads" | "results") => {
-    if (id === "home") return isPageBuilt(homeData);
-    if (id === "vads") return isPageBuilt(vadData);
-    return isPageBuilt(resultsData);
+    if (id === "home") return homeHistory.length > 0;
+    if (id === "vads") return vadHistory.length > 0;
+    return resultsHistory.length > 0;
   };
 
   return (

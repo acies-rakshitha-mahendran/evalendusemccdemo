@@ -20,7 +20,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 0,
     },
     {
-      label: "Old Plastic Waste Percentage",
+      label: "Current Plastic Waste Percentage",
       defaultValue: 20,
       defaultUOM: "%",
       owner: "Third Party",
@@ -28,7 +28,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 1,
     },
     {
-      label: "New Plastic Waste Percentage",
+      label: "Predicted Plastic Waste Percentage",
       defaultValue: 0.5,
       defaultUOM: "%",
       owner: "Client (MCC)",
@@ -56,7 +56,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 0,
     },
     {
-      label: "New Pallet Weight",
+      label: "New Weight of Plastic",
       defaultValue: 280,
       defaultUOM: "lbs",
       owner: "Client (MCC)",
@@ -92,7 +92,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 0,
     },
     {
-      label: "New Machine Stops",
+      label: "Predicted Production Line Stops",
       defaultValue: 3333,
       defaultUOM: "Number",
       owner: "Client (MCC)",
@@ -128,7 +128,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 0,
     },
     {
-      label: "Old Tax Rate",
+      label: "Current Tax Rate (Grade C)",
       defaultValue: 250,
       defaultUOM: "$/ton",
       owner: "Third Party",
@@ -136,7 +136,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 1,
     },
     {
-      label: "New Tax Rate",
+      label: "Predicted Tax Rate (Grade A)",
       defaultValue: 130,
       defaultUOM: "$/ton",
       owner: "Third Party",
@@ -156,7 +156,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 0,
     },
     {
-      label: "Target Price (per 1000 labels)",
+      label: "New Price (per 1000 labels)",
       defaultValue: 6.5,
       defaultUOM: "$",
       owner: "Client (MCC)",

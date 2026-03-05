@@ -16,8 +16,8 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     dimension: "Circular Economy Yield",
     variables: [
       "Annual Procurred Plastic Tonnage",
-      "Old Plastic Waste Percentage",
-      "New Plastic Waste Percentage",
+      "Current Plastic Waste Percentage",
+      "Predicted Plastic Waste Percentage",
       "Price of Recycled Plastic per Ton",
     ],
     expression:
@@ -30,12 +30,12 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     dimension: "Reduced Freight Cost",
     variables: [
       "Current Weight of Plastic",
-      "New Pallet Weight",
+      "New Weight of Plastic",
       "Total Pallets",
       "Freight Cost per lb",
     ],
     expression:
-      "Value = ((Current Weight of Plastic - New Pallet Weight) * Total Pallets) * Freight Cost per lb",
+      "Value = ((Current Weight of Plastic - New Weight of Plastic) * Total Pallets) * Freight Cost per lb",
     description:
       "Reduction in inbound shipping expenses due to the lighter weight and smaller footprint of thinner label rolls.",
   },
@@ -44,12 +44,12 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     dimension: "Reduced Line Stops",
     variables: [
       "Current Production Line Stops",
-      "New Machine Stops",
+      "Predicted Production Line Stops",
       "Avg minutes per Stop",
       "Estimated Downtime Cost per Minute",
     ],
     expression:
-      "Value = (Current Production Line Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min",
+      "Value = (Current Production Line Stops - Predicted Production Line Stops) * Avg minutes per Stop * Cost of Downtime per Min",
     description:
       "Operational cost savings gained by reducing bottling line stoppages because thinner films fit more labels onto a single roll.",
   },
@@ -58,11 +58,11 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     dimension: "Avoided Cost",
     variables: [
       "Total Plastic Weight Produced",
-      "Old Tax Rate",
-      "New Tax Rate",
+      "Current Tax Rate (Grade C)",
+      "Predicted Tax Rate (Grade A)",
     ],
     expression:
-      "Value = Annual Procurred Plastic Tonnage * (Old Tax Rate - New Tax Rate)",
+      "Value = Annual Procurred Plastic Tonnage * (Current Tax Rate (Grade C) - Predicted Tax Rate (Grade A))",
     description:
       "Financial savings from avoiding regulatory penalties by elevating the bottles to Grade A recyclability rating.",
   },
@@ -71,7 +71,7 @@ export const VAD_METADATA: Record<string, VADMeta> = {
     dimension: "Implementation Cost",
     variables: [
       "Current Price (per 1000 labels)",
-      "Target Price (per 1000 labels)",
+      "New Price (per 1000 labels)",
       "Annual Procurred Label Volume",
       "R&D Testing Fees",
     ],

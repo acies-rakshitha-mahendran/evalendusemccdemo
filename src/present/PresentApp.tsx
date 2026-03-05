@@ -133,7 +133,7 @@ export const PresentApp: React.FC = () => {
         }
 
         case "Lower Freight Costs": {
-          // Value = ((Current Weight of Plastic - New Pallet Weight) * Total Pallets) * Freight Cost per lb
+          // Value = ((Current Weight of Plastic - New Weight of Plastic) * Total Pallets) * Freight Cost per lb
           const oldWeight = getFieldNumber(f, 0);
           const newWeight = getFieldNumber(f, 1);
           const totalPallets = getFieldNumber(f, 2);
@@ -143,7 +143,7 @@ export const PresentApp: React.FC = () => {
         }
 
         case "Increased Factory Uptime": {
-          // Value = (Current Production Line Stops - New Machine Stops) * Avg minutes per Stop * Cost of Downtime per Min
+          // Value = (Current Production Line Stops - Predicted Production Line Stops) * Avg minutes per Stop * Cost of Downtime per Min
           const oldStops = getFieldNumber(f, 0);
           const newStops = getFieldNumber(f, 1);
           const minutesPerStop = getFieldNumber(f, 2);
@@ -153,7 +153,7 @@ export const PresentApp: React.FC = () => {
         }
 
         case "Lower Environmental Taxes": {
-          // Value = Annual Procurred Plastic Tonnage * (Old Tax Rate - New Tax Rate)
+          // Value = Annual Procurred Plastic Tonnage * (Current Tax Rate (Grade C) - Predicted Tax Rate (Grade A))
           const plasticWeight = getFieldNumber(f, 0);
           const oldRate = getFieldNumber(f, 1);
           const newRate = getFieldNumber(f, 2);
@@ -162,12 +162,13 @@ export const PresentApp: React.FC = () => {
         }
 
         case "recycLABEL Implementation Cost (Subtractive)": {
-          // (Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Procurred Label Volume / 1000) + R&D Testing Fees
+          // cost is subtractive so we flip the sign. formula from spec:
+          // -1 * ((Target Price per 1000 labels - Baseline Price per 1000 labels) * (Annual Volume / 1000) + R&D Testing Fees)
           const baselinePrice = getFieldNumber(f, 0);
           const targetPrice = getFieldNumber(f, 1);
           const annualVolume = getFieldNumber(f, 2);
           const rdFees = getFieldNumber(f, 3);
-          total = (targetPrice - baselinePrice) * (annualVolume / 1000) + rdFees;
+          total = -1 * ((targetPrice - baselinePrice) * (annualVolume / 1000) + rdFees);
           break;
         }
 

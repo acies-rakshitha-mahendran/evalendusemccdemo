@@ -486,7 +486,7 @@ export const HeroSection: React.FC<{
         </div>
         <div
           style={{
-            fontSize: 30,
+            fontSize: 40,
             lineHeight: 1.2,
             fontWeight: 700,
             marginBottom: 10,
