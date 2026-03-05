@@ -18,10 +18,10 @@ export const VAD_METADATA: Record<string, VADMeta> = {
       "Annual Procurred Plastic Tonnage",
       "Current Plastic Waste Percentage",
       "Predicted Plastic Waste Percentage",
-      "Price of Recycled Plastic per Ton",
+      "Price of Recycled Plastic per Tonne",
     ],
     expression:
-      "Value = Annual Procurred Plastic Tonnage * (Old Plastic Waste % - New Plastic Waste %) * Price of Recycled Plastic per Ton",
+      "Value = Annual Procurred Plastic Tonnage * (Old Plastic Waste % - New Plastic Waste %) * Price of Recycled Plastic per Tonne",
     description:
       "Added revenue from recovering more high-quality, uncontaminated food-grade plastic during the recycling process.",
   },

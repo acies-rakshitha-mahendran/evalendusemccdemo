@@ -822,6 +822,7 @@ export const VADResultsCards: React.FC<{
         vadsToRender.map((vadName) => {
           const variables = VAD_VARIABLES[vadName];
           const fieldInputs = inputs?.[vadName] ?? {};
+          const hasAnyInputs = inputs && Object.keys(inputs).length > 0 && Object.values(inputs).some(vadInputs => Object.keys(vadInputs).length > 0);
           const computed =
             results && Object.prototype.hasOwnProperty.call(results, vadName) ? results[vadName] : null;
 
@@ -849,7 +850,11 @@ export const VADResultsCards: React.FC<{
                     if (entry && entry.value !== "" && entry.value !== null && entry.value !== undefined) {
                       valueToShow = entry.value;
                       uomToShow = entry.uom || variable.defaultUOM;
+                    } else if (!hasAnyInputs) {
+                      valueToShow = "—";
                     }
+                  } else if (!hasAnyInputs) {
+                    valueToShow = "—";
                   }
 
                   const value =
@@ -877,7 +882,7 @@ export const VADResultsCards: React.FC<{
               <div style={{ marginTop: 4, paddingTop: 10, borderTop: "1px solid rgba(148,163,184,0.25)" }}>
                 <div style={{ fontSize: 12, opacity: 0.8 }}>Calculated Value</div>
                 <div style={{ fontSize: 18, fontWeight: 700 }}>
-                  {computed === null ? "—" : computed.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  {!hasAnyInputs || computed === null ? "—" : computed.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                 </div>
               </div>
             </div>
