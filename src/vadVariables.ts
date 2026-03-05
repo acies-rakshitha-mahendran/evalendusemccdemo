@@ -36,7 +36,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
       inputFieldIndex: 2,
     },
     {
-      label: "Price of Recycled Plastic per Ton",
+      label: "Price of Recycled Plastic per Tonne",
       defaultValue: 60,
       defaultUOM: "$",
       owner: "Third Party",
@@ -130,7 +130,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     {
       label: "Current Tax Rate (Grade C)",
       defaultValue: 200,
-      defaultUOM: "$/ton",
+      defaultUOM: "$/tonne",
       owner: "Third Party",
       isUserInput: false,
       inputFieldIndex: 1,
@@ -138,7 +138,7 @@ export const VAD_VARIABLES: Record<string, VADVariable[]> = {
     {
       label: "Predicted Tax Rate (Grade A)",
       defaultValue: 190,
-      defaultUOM: "$/ton",
+      defaultUOM: "$/tonne",
       owner: "Third Party",
       isUserInput: false,
       inputFieldIndex: 2,
