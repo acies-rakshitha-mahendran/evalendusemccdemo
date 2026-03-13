@@ -14,7 +14,7 @@ const TopNav: React.FC = () => {
   return (
     <header className="top-nav">
       <div style={{ fontWeight: 600, letterSpacing: "0.12em", fontSize: 13 }}>
-        MCC EVAL DESIGNER
+        End-Use App Designer
       </div>
       <div className="nav-tabs">
         <button
