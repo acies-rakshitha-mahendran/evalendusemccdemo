@@ -20,7 +20,7 @@ import { useBootstrap } from "./BootstrapContext";
 
 const DEMO_PROJECT_ID = "demo-project";
 const PRODUCT_IMAGE_URL =
-  "https://www.mcclabel.com/_next/image?url=https%3A%2F%2Fcms.mcclabel.com%2Fwp-content%2Fuploads%2F2023%2F08%2FProduct-4-recycLABEL-Roll-Fed.jpg&w=1920&q=75";
+  "https://chat.google.com/u/0/api/get_attachment_url?url_type=FIFE_URL&content_type=image%2Fpng&attachment_token=AOo0EEUJiwK3ShdqpDLzjCn4JOJ%2BZd6t0TmKQMckyewneAL1z0VWESo9YoOaUOYw5VPucELeo39KzG7JLibVw%2BMDXN%2BvSdDSXq0GZl4QhzZrt%2FtNjxbS1FT%2F21alcTNKDw2LQE2AZvLcWD5qmz%2Fpr7mSnZFezf2B1Qeg0Mwuh%2BQCtXZRXMN9PdFo7LENolHXdBjfj0Tlpgz%2BN8%2BocMIAAIlnZ6Pgzp%2Bep%2BiM3ggt%2FBr9rq9Z7C5HsNjD%2Fj%2BetbUb1Z7GDZqv0sp7AWIn98fNxV14K5EXChswJZYxFLuT48ZwT6UsoqcWjn3b%2BCtMfbW1X0IFXEofP%2Fwo1gELzxRszy2N67DsdyhMQc0DEZFHWUqcXGeS5540NFF9X1%2BlQxseEhzo%2BbpGpi9Few5LHjdmWt4nA5hVlY0RJ5bYNWEZjsq4Ceg7%2BoeVENEJRozdYBVV0iz55bw3CRCsiYV0CwtlkO9D%2BFC8nA%2B0PewLGWv3ERvTwRZRbFkzWwr6wD9f1nlul7TeF2dwH%2FSfaS6u8%2FaLb4XjKVhY8VtDKvuSEY6AeIzJbOiv5X4ADT7mKx52SXEimqOOzPp6DCRG5H9QQ2ztjOqV5Pw%3D&allow_caching=true&sz=w512";
 
 const readStoredConfig = (): ProjectBuildConfig | null => {
   if (typeof window === "undefined") return null;
@@ -94,10 +94,10 @@ const SeedLayout: React.FC<{ mode: SeedMode; onSerialized: (json: string) => voi
           minHeight={880}
           backgroundColor="radial-gradient(circle at 12% 12%, rgba(85,136,59,0.18), rgba(255,255,255,0) 55%), radial-gradient(circle at 90% 30%, rgba(56,189,248,0.14), rgba(255,255,255,0) 55%), linear-gradient(135deg, rgba(2,6,23,0.02), rgba(85,136,59,0.05))"
         >
-          <LogoBlock text="MCC  recycLABEL" />
+          <LogoBlock text="XYZ Beverage" />
           <div style={{ height: 14 }} />
           <TitleBlock
-            text="Unlock the Future of Sustainable Packaging with MCC’s recycLABEL"
+            text="Unlock the Future of Sustainable Packaging"
             fontSize={28}
             color="#0f172a"
           />

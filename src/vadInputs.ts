@@ -10,7 +10,7 @@ export interface InputField {
   options?: string[];
   defaultUOM?: string;
   /** Used by InputsRenderer to decide if this value should be collected from the user */
-  owner?: string; // e.g. "End Customer", "Third Party", "Client (MCC)"
+  owner?: string; // e.g. "End Customer", "Third Party", "Client"
   /** Shown on Inputs page (Present) for selected VADs only */
   description?: string;
 }
@@ -53,9 +53,9 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         defaultValue: 15,
         options: ["%", "Number"],
         defaultUOM: "%",
-        owner: "Client (MCC)",
+        owner: "Client",
         description:
-          "Reduced contamination percentage achieved using MCC wash-off labels",
+          "Reduced contamination percentage achieved",
       },
       {
         label: "Price of Recycled Plastic per Ton",
@@ -91,8 +91,8 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         defaultValue: 330,
         options: ["lbs", "Number"],
         defaultUOM: "lbs",
-        owner: "Client (MCC)",
-        description: "Projected lighter pallet weight using downgauged MCC labels",
+        owner: "Client",
+        description: "Projected lighter pallet weight using downgauged labels",
       },
       {
         label: "Total Pallets",
@@ -138,7 +138,7 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         defaultValue: 3600,
         options: ["Number"],
         defaultUOM: "Number",
-        owner: "Client (MCC)",
+        owner: "Client",
         description:
           "Reduced number of line stops expected due to higher label count on thinner rolls",
       },
@@ -223,8 +223,8 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         defaultValue: 5,
         options: ["$", "Number"],
         defaultUOM: "$",
-        owner: "Client (MCC)",
-        description: "Premium price per thousand labels for MCC recycLABEL",
+        owner: "Client",
+        description: "Premium price per thousand labels",
       },
       {
         label: "Annual Procured Label Volume",
@@ -243,7 +243,7 @@ export const VAD_INPUT_CONFIGS: Record<string, VADInputConfig> = {
         defaultValue: 20000,
         options: ["$", "Number"],
         defaultUOM: "$",
-        owner: "Client (MCC)",
+        owner: "Client",
         description:
           "One-time testing and validation cost for wash-off labels",
       },

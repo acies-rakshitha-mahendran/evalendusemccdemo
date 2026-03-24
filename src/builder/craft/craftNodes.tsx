@@ -4,6 +4,7 @@ import { VAD_METADATA } from "../../vadMetadata";
 import { ResultsContext } from "../../resultsContext";
 import { EvalContext } from "../../evalContext";
 import { VAD_VARIABLES } from "../../vadVariables";
+import heroImage from "../../assets/hero.png";
 
 type BaseProps = {
   children?: React.ReactNode;
@@ -446,7 +447,7 @@ export const HeroSection: React.FC<{
   headline = "Modern Sustainable Packaging",
   subheadline = "Design a story-driven hero section that highlights your value proposition.",
   buttonLabel = "Learn More",
-  imageUrl = "https://www.mcclabel.com/_next/image?url=https%3A%2F%2Fcms.mcclabel.com%2Fwp-content%2Fuploads%2F2023%2F08%2FProduct-4-recycLABEL-Roll-Fed.jpg&w=1920&q=75",
+  imageUrl = heroImage,
 }) => {
   const { connectors } = useNode();
 
@@ -482,7 +483,7 @@ export const HeroSection: React.FC<{
             color: "#16a34a",
           }}
         >
-          MCC recycLABEL
+          XYZ Beverage
         </div>
         <div
           style={{
